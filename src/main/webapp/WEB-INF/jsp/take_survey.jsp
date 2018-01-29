@@ -5,40 +5,58 @@
     <div>
         <h1>${survey.type}</h1>
     </div>
-    <div id="main-wrapper" class="col-lg-10">
-        <div class="col-lg-8">
-            <form:form cssClass="form-horizontal" modelAttribute="surveySubmissionVO" action="/submitSurvey/${survey.id}">
+    <div id="main-wrapper" class="col-lg-12">
 
+        <c:set var="questionNum" value="0" scope="page"/>
 
-                <c:forEach var="question" items="${questions}">
+        <div class="row">
+            <%--<div class="col-lg-1">--%>
+            <%--</div>--%>
+            <div>
+                <form:form cssClass="form-horizontal" modelAttribute="surveySubmissionVO"
+                           action="/submitSurvey/${survey.id}" method="post">
 
-                    <fieldset class="form-group">
-                        <legend>${question.questionText}</legend>
+                    <fieldset>
+
+                    <c:forEach var="question" items="${questions}">
+
+                    <div class="form-group" id="${question.id}">
+                        <legend><c:out value="${questionNum + 1}"/>) ${question.questionText}</legend>
 
                         <c1:forEach var="choice" items="${question.choices}">
 
                             <div class="form-check">
+
+
+                                <form:radiobutton path="choiceArray[${questionNum}]"
+                                                  name="${question.id}"
+                                                  value="${choice.id}"></form:radiobutton>
                                 <label class="form-check-label">
-                                    <form:input class="form-check-input" name="optionsRadios" id="optionsRadios1"
-                                           value="option1"
-                                           checked="" type="radio">
-                                        ${choice}
+                                        ${choice.choiceText}
                                 </label>
                             </div>
+
                         </c1:forEach>
 
-                    </fieldset>
-                    <hr>
-                </c:forEach>
-
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <form:button type="reset" value="reset" class="btn btn-default">Reset</form:button>
-                        <form:button type="submit" value="save" class="btn btn-primary">Save</form:button>
                     </div>
-                </div>
+                        <c:set var="questionNum" value="${questionNum + 1}" scope="page"/>
+                    <hr>
+                    </c:forEach>
 
-            </form:form>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+
+                            <form:button type="reset" value="reset" onclick="window.location.reload()"
+                                         class="btn btn-default">Reset</form:button>
+                            <form:button type="submit" value="save" class="btn btn-primary">Submit</form:button>
+                        </div>
+                    </div>
+
+                    </form:form>
+            <%--</div>--%>
+            <%--<div class="col-lg-1">--%>
+            <%--</div>--%>
+
         </div>
 
     </div>

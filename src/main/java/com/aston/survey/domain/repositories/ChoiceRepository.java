@@ -4,4 +4,5 @@ import com.aston.survey.domain.Choice;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ChoiceRepository extends CrudRepository<Choice, Long>{
+    Choice getByChoiceText(String choiceText);
 }

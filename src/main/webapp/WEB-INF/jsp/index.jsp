@@ -5,22 +5,18 @@
         <h2>Welcome to AstonTech Survey Application</h2>
         <p>This application handles surveys for Aston Technologies.</p>
     </div>
-    <div class="container">
-        <div class="col-lg-4">
-            <a href="http://localhost:8080/takeSurvey/1" class="btn btn-primary">
-                Take survey 1
+
+    <div class="row">
+
+    <c:forEach var="survey" items="${surveys}">
+        <%--hardcoded width of 4 here will need to change later--%>
+        <div class="col-lg-4 text-center">
+            <a href="http://localhost:8080/takeSurvey/${survey.id}" class="btn btn-primary">
+                Take survey ${survey.id}
             </a>
         </div>
-        <div class="col-lg-4">
-            <a href="http://localhost:8080/takeSurvey/2" class="btn btn-primary">
-                Take survey 2
-            </a>
-        </div>
-        <div class="col-lg-4">
-            <a href="http://localhost:8080/takeSurvey/3" class="btn btn-primary">
-                Take survey 3
-            </a>
-        </div>
+        
+    </c:forEach>
     </div>
 </div>
 

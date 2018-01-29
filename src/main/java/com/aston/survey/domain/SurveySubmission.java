@@ -13,9 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 public class SurveySubmission {
 
+    public SurveySubmission(Survey survey, List<Choice> choices) {
+        this.survey = survey;
+        this.submittedAnswers = choices;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "SurveyId")
+    @Column(name = "SurveySubmissionId")
     private Long id;
 
     @Version
@@ -24,6 +29,6 @@ public class SurveySubmission {
     @ManyToOne(cascade = CascadeType.ALL)
     private Survey survey;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Choice> submittedAnswers;
 }

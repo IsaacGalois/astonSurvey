@@ -13,4 +13,6 @@ public interface ChoiceService {
     Iterable<Choice> saveChoiceList(Iterable<Choice> choiceIterable);
 
     void deleteChoice(Long id);
+
+    Choice getEmptyChoice();
 }

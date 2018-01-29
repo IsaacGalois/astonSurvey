@@ -36,4 +36,16 @@ public class ChoiceServiceImpl implements ChoiceService {
     public void deleteChoice(Long id) {
         choiceRepository.delete(id);
     }
+
+    @Override
+    public Choice getEmptyChoice() {
+        Choice emptyChoice = choiceRepository.getByChoiceText("");
+
+        if(emptyChoice == null) {
+            emptyChoice = new Choice(null,null,"");
+            choiceRepository.save(emptyChoice);
+        }
+
+        return emptyChoice;
+    }
 }
