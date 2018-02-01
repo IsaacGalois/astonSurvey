@@ -23,5 +23,6 @@ public class Survey {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Question> questions;
 
+    private String name;
     private String type;
 }

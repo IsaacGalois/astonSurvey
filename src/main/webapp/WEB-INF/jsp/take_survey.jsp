@@ -3,6 +3,11 @@
 
 <div class="container">
     <div>
+
+        <div class="progress">
+            <div id="progBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+        </div>
+
         <h1>${survey.type}</h1>
     </div>
     <div id="main-wrapper" class="col-lg-12">
@@ -10,8 +15,7 @@
         <c:set var="questionNum" value="0" scope="page"/>
 
         <div class="row">
-            <%--<div class="col-lg-1">--%>
-            <%--</div>--%>
+
             <div>
                 <form:form cssClass="form-horizontal" modelAttribute="surveySubmissionVO"
                            action="/submitSurvey/${survey.id}" method="post">
@@ -27,10 +31,20 @@
 
                             <div class="form-check">
 
-
-                                <form:radiobutton path="choiceArray[${questionNum}]"
-                                                  name="${question.id}"
-                                                  value="${choice.id}"></form:radiobutton>
+                                <%--<c1:choose>--%>
+                                    <%--todo implement text area support on survey--%>
+                                    <%--<c1:when test="${question.choices.size == 1}">--%>
+                                        <%--<form:textarea path="choiceArray[${questionNum}]"--%>
+                                                       <%--id="comment"--%>
+                                                       <%--value="${choice.id}"></form:textarea>--%>
+                                    <%--</c1:when>--%>
+                                    <%--<c1:otherwise>--%>
+                                        <form:radiobutton path="choiceArray[${questionNum}]"
+                                                          name="${question.id}"
+                                                          value="${choice.id}"></form:radiobutton>
+                                    <%--</c1:otherwise>--%>
+                                <%--</c1:choose>--%>
+                                
                                 <label class="form-check-label">
                                         ${choice.choiceText}
                                 </label>

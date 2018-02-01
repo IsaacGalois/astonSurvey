@@ -9,13 +9,13 @@
     <div class="row">
 
     <c:forEach var="survey" items="${surveys}">
-        <%--hardcoded width of 4 here will need to change later--%>
+        <%--todo hardcoded width of 4 here will need to change later--%>
         <div class="col-lg-4 text-center">
             <a href="http://localhost:8080/takeSurvey/${survey.id}" class="btn btn-primary">
                 Take survey ${survey.id}
             </a>
         </div>
-        
+
     </c:forEach>
     </div>
 </div>
