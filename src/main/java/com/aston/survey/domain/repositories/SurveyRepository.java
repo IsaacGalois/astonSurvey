@@ -15,7 +15,7 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
                     "WHERE s.SURVEY_SUBMISSION_SURVEY_SUBMISSION_ID = u.SURVEY_SUBMISSION_ID " +
                     "AND u.SURVEY_SURVEY_ID = :id\n" +
                     "GROUP BY s.SUBMITTED_ANSWERS_KEY,  s.SUBMITTED_ANSWERS_CHOICE_ID\n" +
-                    "ORDER BY s.SUBMITTED_ANSWERS_KEY ASC",
+                    "ORDER BY s.SUBMITTED_ANSWERS_KEY, s.SUBMITTED_ANSWERS_CHOICE_ID ASC", //have to sort also on choiceId because this set is accessed in choice increasing order
             nativeQuery = true
     )
     List<Object[]> getAnswerCountsById(@Param("id") Long id);

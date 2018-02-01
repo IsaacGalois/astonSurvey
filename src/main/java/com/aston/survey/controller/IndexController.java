@@ -63,8 +63,6 @@ public class IndexController {
         model.addAttribute("statArray", statArray);
         model.addAttribute("survey", surveyService.getSurveyById(id));
 
-        //todo: need to redirect to id specific one here?
-
         return "/admin/admin_stats";
     }
 

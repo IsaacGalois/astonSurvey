@@ -45,24 +45,16 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public Long[][] getAnswerFrequencyBySurveyId(Long id) {
         List<Object[]> statReturned = surveyRepository.getAnswerCountsById(id);
-
-
-        //make rows one entry longer to handle empty choices
-        Long[][] statMatrix = new Long[statReturned.size()][statReturned.get(0).length + 1];
+        Long[][] statMatrix = new Long[statReturned.size()][];
 
         for (int i = 0; i < statReturned.size(); i++) {
-            Arrays.fill(statMatrix[i], 0l);
+            Long[] row = new Long[statReturned.get(i).length];
+            Arrays.fill(row, 0l);
+            statMatrix[i] = row;
             for (int j = 0; j < statReturned.get(i).length; j++) {
-                if (((java.math.BigInteger) statReturned.get(i)[1]).longValue() != 1) {    //not the empty choice
-                    statMatrix[i][j] = ((java.math.BigInteger) statReturned.get(i)[j]).longValue();
-                } else {                                   //Handle empty choice
-                    statMatrix[i][statReturned.get(0).length]++;
-                }
+                statMatrix[i][j] = ((java.math.BigInteger) statReturned.get(i)[j]).longValue();
             }
         }
-        System.out.println("statMatrix:");
-        for (Long[] row : statMatrix)
-            System.out.println(Arrays.toString(row));
 
         return statMatrix;
     }

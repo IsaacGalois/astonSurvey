@@ -12,7 +12,7 @@
     </div>
     <div id="main-wrapper" class="col-lg-12">
 
-        <c:set var="questionNum" value="0" scope="page"/>
+        <c:set var="questionNum" value="1" scope="page"/>
 
         <div class="row">
 
@@ -25,7 +25,7 @@
                     <c:forEach var="question" items="${questions}">
 
                     <div class="form-group" id="${question.id}">
-                        <legend><c:out value="${questionNum + 1}"/>) ${question.questionText}</legend>
+                        <legend><c:out value="${questionNum}"/>) ${question.questionText}</legend>
 
                         <c1:forEach var="choice" items="${question.choices}">
 
@@ -39,9 +39,24 @@
                                                        <%--value="${choice.id}"></form:textarea>--%>
                                     <%--</c1:when>--%>
                                     <%--<c1:otherwise>--%>
-                                        <form:radiobutton path="choiceArray[${questionNum}]"
-                                                          name="${question.id}"
-                                                          value="${choice.id}"></form:radiobutton>
+
+                                    <%--check if it is the empty choice--%>
+                                    <c:choose>
+                                        <%--not empty choice case--%>
+                                        <c:when test="${choice.id != 1}" >
+                                            <form:radiobutton path="choiceArray[${questionNum-1}]"
+                                                              name="${question.id}"
+                                                              value="${choice.id}"></form:radiobutton>
+                                        </c:when>
+                                        <%--empty choice case--%>
+                                        <c:otherwise>
+                                            <form:radiobutton path="choiceArray[${questionNum-1}]"
+                                                              name="${question.id}"
+                                                              value="${choice.id}"
+                                                              checked="checked" style="display:none"></form:radiobutton>
+                                        </c:otherwise>
+                                    </c:choose>
+
                                     <%--</c1:otherwise>--%>
                                 <%--</c1:choose>--%>
                                 
