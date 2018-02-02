@@ -6,7 +6,7 @@
         <p>This application handles surveys for Aston Technologies.</p>
     </div>
 
-    <div class="row">
+    <div class="row" id="surveyButtons">
 
     <c:forEach var="survey" items="${surveys}">
         <%--todo hardcoded width of 4 here will need to change later--%>
@@ -17,6 +17,21 @@
         </div>
 
     </c:forEach>
+    </div>
+
+    <hr>
+
+    <div class="row" id="adminPages">
+
+        <c:forEach var="survey" items="${surveys}">
+            <%--todo hardcoded width of 4 here will need to change later--%>
+            <div class="col-lg-4 text-center">
+                <a href="http://localhost:8080/adminStats/${survey.id}" class="btn btn-primary">
+                    View Admin Stats ${survey.id}
+                </a>
+            </div>
+
+        </c:forEach>
     </div>
 </div>
 
