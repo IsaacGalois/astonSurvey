@@ -14,7 +14,7 @@ $(document).ready(function () {
         if ($.inArray(this.name, answeredQuestions) === -1) {
             progressionPercent += +(choicePercent.replace('%', ''));
 
-            //todo: assumes page has less than 50 questions (adjust this later if paging is added)
+            //todo: assumes page has less than 50 questions (adjust this later if assumption is invalid)
             if (progressionPercent > 99.5) {
                 progressionPercent = 100;
             }

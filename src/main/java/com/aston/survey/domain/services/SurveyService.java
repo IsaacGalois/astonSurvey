@@ -16,5 +16,11 @@ public interface SurveyService {
 
     void deleteSurvey(Long id);
 
-    Long[][] getAnswerFrequencyBySurveyId(Long id);
+    long[][] getAnswerFrequencyBySurveyId(Long id);
+
+    long[][] cleanAnswerFrequencyMatrix(Long id, long[][] statMatrix);
+
+    int[] getCommentQuestionIndicesById(Long id);
+
+    long[] getCommentQuestionIdsBySurveyId(Long id);
 }

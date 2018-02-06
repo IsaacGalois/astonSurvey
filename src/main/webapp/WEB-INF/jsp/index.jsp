@@ -11,7 +11,7 @@
     <c:forEach var="survey" items="${surveys}">
         <%--todo hardcoded width of 4 here will need to change later--%>
         <div class="col-lg-4 text-center">
-            <a href="http://localhost:8080/takeSurvey/${survey.id}" class="btn btn-primary">
+            <a href="http://localhost:8080/takeSurvey/${survey.id}" class="btn btn-primary" style="margin-bottom: 10px">
                 Take survey ${survey.id}
             </a>
         </div>
@@ -26,7 +26,7 @@
         <c:forEach var="survey" items="${surveys}">
             <%--todo hardcoded width of 4 here will need to change later--%>
             <div class="col-lg-4 text-center">
-                <a href="http://localhost:8080/adminStats/${survey.id}" class="btn btn-primary">
+                <a href="http://localhost:8080/adminStats/${survey.id}" class="btn btn-primary" style="margin-bottom: 10px">
                     View Admin Stats ${survey.id}
                 </a>
             </div>

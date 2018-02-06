@@ -1,15 +1,9 @@
 package com.aston.survey.bootstrap;
 
-import com.aston.survey.domain.Choice;
-import com.aston.survey.domain.Question;
-import com.aston.survey.domain.Survey;
-import com.aston.survey.domain.SurveySubmission;
+import com.aston.survey.domain.*;
 import com.aston.survey.domain.repositories.QuestionRepository;
 import com.aston.survey.domain.repositories.SurveyRepository;
-import com.aston.survey.domain.services.ChoiceService;
-import com.aston.survey.domain.services.QuestionService;
-import com.aston.survey.domain.services.SurveyService;
-import com.aston.survey.domain.services.SurveySubmissionService;
+import com.aston.survey.domain.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +19,11 @@ public class SeedData implements CommandLineRunner{
 
     private final SurveyService surveyService;
     private final SurveySubmissionService surveySubmissionService;
-    private final ChoiceService choiceService;
 
-    public SeedData(SurveyService surveyService, SurveySubmissionService surveySubmissionService, ChoiceService choiceService)
+    public SeedData(SurveyService surveyService, SurveySubmissionService surveySubmissionService)
     {
         this.surveyService = surveyService;
         this.surveySubmissionService = surveySubmissionService;
-        this.choiceService = choiceService;
     }
 
     @Transactional
@@ -52,6 +44,8 @@ public class SeedData implements CommandLineRunner{
                 emptyChoice,
                 new Choice("Not at all satisfied"),new Choice("Somewhat dissatisfied"),new Choice("Neither satisfied nor dissatisfied"),
                 new Choice("Somewhat satisfied"),new Choice("Completely satisfied")).collect(Collectors.toList());
+
+        final Comment emptyComment = new Comment("");
 
         //Survey 1 - test
         Question question1 = new Question(null,null,
@@ -83,17 +77,19 @@ public class SeedData implements CommandLineRunner{
 
         Survey survey3 = new Survey(null, null, Stream.of(question7,question8,question9).collect(Collectors.toList()), "Satisfaction", "Test Data");
 
-
+        //Survey 4 - text input test
         Question question10 = new Question(null, null,
                 "Should we test variable length choices on questions?",yesNoMaybe);
         Question question11 = new Question(null, null,
-                "Why does this question have one fewer choices?",Stream.of(emptyChoice,new Choice("Not much of a choice")).collect(Collectors.toList()));
+                "Adequate textArea test?",Stream.of(emptyComment).collect(Collectors.toList()));
         Question question12 = new Question(null, null,
                 "Do we need to add another question after this to test variable length amount of questions?",yesNoMaybe);
         Question question13 = new Question(null, null,
                 "This is the 13th question in the database, so is it unlucky to answer it?",yesNoMaybe);
+        Question question14 = new Question(null, null,
+                "Adequate multiple comment/comment at end test?",Stream.of(emptyComment).collect(Collectors.toList()));
 
-        Survey survey4 = new Survey(null, null, Stream.of(question10,question11,question12,question13).collect(Collectors.toList()),"One Question test", "Test Data");
+        Survey survey4 = new Survey(null, null, Stream.of(question10,question11,question12,question13,question14).collect(Collectors.toList()),"Text Area test", "Test Data");
 
 //        Submissions
         SurveySubmission surveySubmission1 = new SurveySubmission();
@@ -117,9 +113,22 @@ public class SeedData implements CommandLineRunner{
             answers3.put(q,q.getChoices().get(1));
         surveySubmission3.setSubmittedAnswers(answers3);
 
+        SurveySubmission surveySubmission4 = new SurveySubmission();
+        surveySubmission4.setSurvey(survey4);
+        HashMap<Question,Choice> answers4 = new HashMap<>();
+        Question q = null;
+        for(int i=0;i<survey4.getQuestions().size();i++) {
+            q = survey4.getQuestions().get(i);
+            if(i == 1 || i == 4) {
+                answers4.put(q, new Comment(i==1 ? "I Love Aston Technologies! Also this is a great test." : "Good test, I guess."));
+            } else
+                answers4.put(q, q.getChoices().get(1));
+        }
+        surveySubmission4.setSubmittedAnswers(answers4);
+
         //load data
         surveyService.saveSurveyList(Stream.of(survey1,survey2,survey3,survey4).collect(Collectors.toList()));
-        surveySubmissionService.saveSurveySubmissionList(Stream.of(surveySubmission1,surveySubmission2,surveySubmission3).collect(Collectors.toList()));
+        surveySubmissionService.saveSurveySubmissionList(Stream.of(surveySubmission1,surveySubmission2,surveySubmission3,surveySubmission4).collect(Collectors.toList()));
 
     }
 

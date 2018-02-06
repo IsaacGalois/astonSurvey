@@ -10,24 +10,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SurveySubmissionVO {
 
     public SurveySubmissionVO(Integer numQuestions) {
-        this.choiceArray = new Long[numQuestions];
+        this.choiceArray = new String[numQuestions];
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "SurveySubmissionVOId")
-    private Integer id;
-
-    @Version
-    private Integer version;
-
-    private Long[] choiceArray;
+//    NOTE: This is a String Array so that it can handle Comment textArea input, otherwise it will consist of Long choiceId values
+//              that must be parsed.
+    private String[] choiceArray;
 }

@@ -1,11 +1,9 @@
 package com.aston.survey.domain.services.impl;
 
-import com.aston.survey.domain.Choice;
-import com.aston.survey.domain.Question;
-import com.aston.survey.domain.Survey;
-import com.aston.survey.domain.SurveySubmission;
+import com.aston.survey.domain.*;
 import com.aston.survey.domain.repositories.SurveySubmissionRepository;
 import com.aston.survey.domain.services.ChoiceService;
+import com.aston.survey.domain.services.CommentService;
 import com.aston.survey.domain.services.SurveyService;
 import com.aston.survey.domain.services.SurveySubmissionService;
 import com.aston.survey.domain.vo.SurveySubmissionVO;
@@ -22,10 +20,16 @@ public class SurveySubmissionServiceImpl implements SurveySubmissionService {
     private SurveySubmissionRepository surveySubmissionRepository;
 
     @Autowired
-    private ChoiceService choiceService;
+    private SurveyService surveyService;
 
     @Autowired
-    private SurveyService surveyService;
+    private ChoiceService choiceService;
+
+    private CommentService commentService;
+
+    public SurveySubmissionServiceImpl(CommentService commentService) {
+        this.commentService = commentService;
+    }
 
     @Override
     public Iterable<SurveySubmission> listAllSurveySubmissions() {
@@ -59,29 +63,65 @@ public class SurveySubmissionServiceImpl implements SurveySubmissionService {
         Survey survey = surveyService.getSurveyById(surveyId);
         List<Question> questionList = survey.getQuestions();
 
-        Long id = null;
-        if (surveySubmissionVO.getChoiceArray() != null) {
-            for (int i = 0; i < surveySubmissionVO.getChoiceArray().length; i++) {
-                id = surveySubmissionVO.getChoiceArray()[i];
+        String id = null;
+        Question question = null;
+        
+        String[] choiceArray = surveySubmissionVO.getChoiceArray();
+
+        //get Comment possibility and data
+        Comment comment = null;
+        int[] commentQuestionIndices = surveyService.getCommentQuestionIndicesById(surveyId);
+        int currCommentIndex = -1;
+        if(commentQuestionIndices.length > 0)
+            currCommentIndex = 0;
+
+        //go through choiceArray of SurveySubmissionVO and fetch Questions and apply their answers (Choices) to answers HashMap
+        //  if the Choice is a Comment, handle that as a special case.
+        if (choiceArray != null) {
+            //walk through each choice in choiceArray
+            for (int i = 0; i < choiceArray.length; i++) {
+                id = choiceArray[i];
                 if (id != null) {
-                    answers.put(questionList.get(i), choiceService.getChoiceById(id));
+
+                    question = questionList.get(i);
+
+                    //check if this question choice is a Comment
+                    if(currCommentIndex != -1 && i == commentQuestionIndices[currCommentIndex]) {
+                            comment = handleComment(id);
+                            answers.put(question, comment);
+                            if(currCommentIndex+1 < commentQuestionIndices.length)
+                                currCommentIndex++;
+                    } else {
+                        Choice choice = choiceService.getChoiceById(Long.parseLong(id));
+                        answers.put(question, choice);
+                    }
                 } else {
-                    answers.put(questionList.get(i), choiceService.getEmptyChoice());
+                    //todo: replace with log entry
+                    System.out.println("ERROR: Null questionId in SurveySubmissionVO.");
                 }
             }
         } else  //todo replace with log entry
-            System.out.println("WARN: Null choice array in VO. One will be created (replace this with log entry later)");
-
-        //below we add empty answers for trailing questions with no submission (not sure why this happens but this fixes it)
-        int offset = answers.size();
-        int diff = questionList.size() - offset;
-        if (diff > 0) {
-            for (int i = 0; i < diff; i++)
-                answers.put(questionList.get(offset+i),choiceService.getEmptyChoice());
-        }
+            System.out.println("WARN: Null choice array in VO.");
 
         SurveySubmission ret = new SurveySubmission(survey, answers);
         surveySubmissionRepository.save(ret);
+
+        return ret;
+    }
+
+    //handles Comment cases. Returns a new Comment with given commentText or the empty comment (or an Error).
+    public Comment handleComment(String newCommentText) {
+
+        Comment ret = commentService.getEmptyComment();
+
+        //make new Comment with newCommentText or return empty comment (Error Otherwise)
+        if(newCommentText != null) {
+            if(!newCommentText.isEmpty()) {
+                ret = new Comment(newCommentText);
+            }
+        } else { //todo: replace with log entry
+            System.out.println("ERROR: Comment Text Returned Null.");
+        }
 
         return ret;
     }

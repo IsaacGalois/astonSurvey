@@ -15,7 +15,7 @@
 
         $('.progress-text').text(progressionPercent + '%');
 
-        //update progress bar on choice selection
+        //update progress bar on radio choice selection
         $('.radioChoice').on('change', function () {
             if ($.inArray(this.name, answeredQuestions) === -1) {
                 progressionPercent += +(choicePercent.replace('%', ''));
@@ -28,19 +28,30 @@
                 $('.progress-bar').css({'width': progressionPercent + '%'});
                 $('.progress-text').text(progressionPercent + '%');
                 answeredQuestions.push(this.name);
-
-                //debug printoffs
-//                console.log("after update progressionPercent: " + progressionPercent);
-//                console.log("width now: " + $('.progress-bar').css('width'));
             }
-//            else {
-//                console.log("already answered question");
-//            }
+        });
+
+        //update progress bar on textArea click
+        $('.surveyTextArea').on('click', function () {
+            if ($.inArray(this.name, answeredQuestions) === -1) {
+                progressionPercent += +(choicePercent.replace('%', ''));
+
+                //todo: assumes page has less than 50 questions (adjust this later if paging is added)
+                if (progressionPercent > 99.5) {
+                    progressionPercent = 100;
+                }
+
+                $('.progress-bar').css({'width': progressionPercent + '%'});
+                $('.progress-text').text(progressionPercent + '%');
+                answeredQuestions.push(this.name);
+            }
         });
 
     });
 </script>
 
+
+<%--todo: add paging?--%>
 <div class="container">
     <div>
 
@@ -64,6 +75,8 @@
 
                     <fieldset>
 
+                            <%--currComment index is a page variable that keeps track of which index on the commentIndexArray we are currently on.--%>
+                        <c:set var="currCommentIndex" value="0"/>
                         <c:forEach var="question" items="${questions}">
 
                             <div class="form-group questionRow" id="${question.id}">
@@ -73,41 +86,61 @@
 
                                     <div class="form-check">
 
-                                            <%--<c1:choose>--%>
-                                            <%--todo implement text area support on survey--%>
-                                            <%--<c1:when test="${question.choices.size == 1}">--%>
-                                            <%--<form:textarea path="choiceArray[${questionNum}]"--%>
-                                            <%--id="comment"--%>
-                                            <%--value="${choice.id}"></form:textarea>--%>
-                                            <%--</c1:when>--%>
-                                            <%--<c1:otherwise>--%>
+                                        <c1:choose>
+                                            <%--Check if this question is a multiple choice question--%>
+                                            <c1:when test="${commentIndexArray[currCommentIndex] != questionNum-1}">
+                                                <%--check if it is the empty choice--%>
+                                                <c:choose>
+                                                    <%--not empty choice case--%>
+                                                    <c:when test="${choice.id != emptyChoiceId}">
+                                                        <form:radiobutton path="choiceArray[${questionNum-1}]"
+                                                                          name="${question.id}"
+                                                                          value="${choice.id}"
+                                                                          class="radioChoice"></form:radiobutton>
+                                                    </c:when>
+                                                    <%--empty choice case--%>
+                                                    <c:otherwise>
+                                                        <form:radiobutton path="choiceArray[${questionNum-1}]"
+                                                                          name="${question.id}"
+                                                                          value="${choice.id}"
+                                                                          checked="checked"
+                                                                          style="display:none"
+                                                                          class="radioChoice radioChoiceDefault"></form:radiobutton>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <label class="form-check-label">
+                                                        ${choice.choiceText}
+                                                </label>
+                                            </c1:when>
 
-                                            <%--check if it is the empty choice--%>
-                                        <c:choose>
-                                            <%--not empty choice case--%>
-                                            <c:when test="${choice.id != 1}">
-                                                <form:radiobutton path="choiceArray[${questionNum-1}]"
-                                                                  name="${question.id}"
-                                                                  value="${choice.id}"
-                                                                  class="radioChoice"></form:radiobutton>
-                                            </c:when>
-                                            <%--empty choice case--%>
-                                            <c:otherwise>
-                                                <form:radiobutton path="choiceArray[${questionNum-1}]"
-                                                                  name="${question.id}"
-                                                                  value="${choice.id}"
-                                                                  checked="checked"
-                                                                  style="display:none"
-                                                                  class="radioChoice radioChoiceDefault"></form:radiobutton>
-                                            </c:otherwise>
-                                        </c:choose>
+                                            <%--Comment question case--%>
+                                            <c1:otherwise>
+                                                <%--check if it is the empty comment--%>
+                                                <c:choose>
+                                                    <c:when test="${choice.id == emptyCommentId}">
+                                                        <%--empty comment case (should be only case)--%>
+                                                        <form:textarea path="choiceArray[${questionNum-1}]"
+                                                                       id="comment"
+                                                                       name="${question.id}"
+                                                                       placeholder="${choice.choiceText}"
+                                                                       cssStyle="width: 60%"
+                                                                       cssClass="surveyTextArea"
+                                                                       rows="8"></form:textarea>
+                                                    </c:when>
+                                                    <%--empty choice case (should never get hit)--%>
+                                                    <c:otherwise>
+                                                        <%--todo: make a log entry (possible? post in form to controller?)--%>
+                                                        <h1>ERROR: Non-Empty choice in a comment question!</h1>
+                                                    </c:otherwise>
+                                                </c:choose>
 
-                                            <%--</c1:otherwise>--%>
-                                            <%--</c1:choose>--%>
+                                                <%--Update currCommentIndex, while ensuring it does not go out of bounds of currCommentIndex--%>
+                                                <c:set var="currCommentIndex"
+                                                       value="${currCommentIndex+1 == numComments ? currCommentIndex : currCommentIndex+1}"/>
 
-                                        <label class="form-check-label">
-                                                ${choice.choiceText}
-                                        </label>
+                                            </c1:otherwise>
+                                        </c1:choose>
+
                                     </div>
 
                                 </c1:forEach>
@@ -136,7 +169,5 @@
         </div>
     </div>
 </div>
-
-<include
 
 <%@include file="includes/footer.jsp" %>
