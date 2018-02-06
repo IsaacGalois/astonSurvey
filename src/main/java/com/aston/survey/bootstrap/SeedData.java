@@ -42,8 +42,8 @@ public class SeedData implements CommandLineRunner{
         final List<Choice> yesNoMaybe = Stream.of(emptyChoice, new Choice("Yes"),new Choice("No"),new Choice("Maybe")).collect(Collectors.toList());
         final List<Choice> fiveWaySatisfaction = Stream.of(
                 emptyChoice,
-                new Choice("Not at all satisfied"),new Choice("Somewhat dissatisfied"),new Choice("Neither satisfied nor dissatisfied"),
-                new Choice("Somewhat satisfied"),new Choice("Completely satisfied")).collect(Collectors.toList());
+                new Choice("Very dissatisfied"),new Choice("Somewhat dissatisfied"),new Choice("Neither satisfied nor dissatisfied"),
+                new Choice("Somewhat satisfied"),new Choice("Very satisfied")).collect(Collectors.toList());
 
         final Comment emptyComment = new Comment("");
 
