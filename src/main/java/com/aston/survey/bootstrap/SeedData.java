@@ -44,6 +44,10 @@ public class SeedData implements CommandLineRunner{
                 emptyChoice,
                 new Choice("Very dissatisfied"),new Choice("Somewhat dissatisfied"),new Choice("Neither satisfied nor dissatisfied"),
                 new Choice("Somewhat satisfied"),new Choice("Very satisfied")).collect(Collectors.toList());
+        final List<Choice> fiveWayAgreeDisagree = Stream.of(
+                emptyChoice,
+                new Choice("Strongly disagree"), new Choice("Somewhat disagree"), new Choice("Neither agree nor disagree"),
+                new Choice("Somewhat agree"), new Choice("Strongly agree")).collect(Collectors.toList());
 
         final Comment emptyComment = new Comment("");
 
@@ -91,6 +95,42 @@ public class SeedData implements CommandLineRunner{
 
         Survey survey4 = new Survey(null, null, Stream.of(question10,question11,question12,question13,question14).collect(Collectors.toList()),"Text Area test", "Test Data");
 
+        //Survey 5 - Real World Example Job Satisfaction
+        Question question15 = new Question(null, null,
+                "I would like to work in the IT field in the future.", fiveWayAgreeDisagree);
+        Question question16 = new Question(null, null,
+                "Aston Technologies is far away from where I live.", fiveWayAgreeDisagree);
+        Question question17 = new Question(null, null,
+                "I would like to work with the people I interacted with.", fiveWayAgreeDisagree);
+        Question question18 = new Question(null, null,
+                "I was treated fairly and professionally by Aston Technologies Staff.", fiveWayAgreeDisagree);
+        Question question19 = new Question(null, null,
+                "I may apply to Aston Technologies again in the future.", fiveWayAgreeDisagree);
+        Question question20 = new Question(null, null,
+                "Aston Technologies has a fun and welcoming business culture.", fiveWayAgreeDisagree);
+        Question question21 = new Question(null, null,
+                "I am too busy with other obligations to work at Aston Technologies right now.", fiveWayAgreeDisagree);
+        Question question22 = new Question(null, null,
+                "My life is moving in a different direction than Aston Technologies currently.", fiveWayAgreeDisagree);
+        Question question23 = new Question(null, null,
+                "I could thrive at Aston Technologies if hired.", fiveWayAgreeDisagree);
+        Question question24 = new Question(null, null,
+                "I would be proud to work at Aston Technologies.", fiveWayAgreeDisagree);
+        Question question25 = new Question(null, null,
+                "Arranging transportation to Aston Technologies is not difficult.", fiveWayAgreeDisagree);
+        Question question26 = new Question(null, null,
+                "I found the Aston Technologies application process to be straightforward and easy to complete.", fiveWayAgreeDisagree);
+        Question question27 = new Question(null, null,
+                "The Aston Technologies website was easy to navigate and presented in a professional way.", fiveWayAgreeDisagree);
+        Question question28 = new Question(null, null,
+                "I found the prospect of traveling for extended periods unappealing.", fiveWayAgreeDisagree);
+        Question question29 = new Question(null, null,
+                "I found the depth and breadth of course material that would be covered intimidating.", fiveWayAgreeDisagree);
+
+        Survey survey5 = new Survey(null, null, Stream.of(question15,question16,question17,question18,question19,question20,question21,question22,question23,question24,question25,question26,question27,question28,question29)
+                .collect(Collectors.toList()),"Official Aston Technologies Interview Follow-Up Survey", "Demo Survey");
+
+
 //        Submissions
         SurveySubmission surveySubmission1 = new SurveySubmission();
         surveySubmission1.setSurvey(survey1);
@@ -116,18 +156,26 @@ public class SeedData implements CommandLineRunner{
         SurveySubmission surveySubmission4 = new SurveySubmission();
         surveySubmission4.setSurvey(survey4);
         HashMap<Question,Choice> answers4 = new HashMap<>();
-        Question q = null;
+        Question qText = null;
         for(int i=0;i<survey4.getQuestions().size();i++) {
-            q = survey4.getQuestions().get(i);
+            qText = survey4.getQuestions().get(i);
             if(i == 1 || i == 4) {
-                answers4.put(q, new Comment(i==1 ? "I Love Aston Technologies! Also this is a great test." : "Good test, I guess."));
+                answers4.put(qText, new Comment(i==1 ? "I Love Aston Technologies! Also this is a great test." : "Good test, I guess."));
             } else
-                answers4.put(q, q.getChoices().get(1));
+                answers4.put(qText, qText.getChoices().get(1));
         }
         surveySubmission4.setSubmittedAnswers(answers4);
 
+        //load dummy submission into survey5
+//        SurveySubmission surveySubmission5 = new SurveySubmission();
+//        surveySubmission5.setSurvey(survey5);
+//        HashMap<Question,Choice> answers5 = new HashMap<>();
+//        for(Question q : survey5.getQuestions())
+//            answers5.put(q,q.getChoices().get(1));
+//        surveySubmission5.setSubmittedAnswers(answers5);
+
         //load data
-        surveyService.saveSurveyList(Stream.of(survey1,survey2,survey3,survey4).collect(Collectors.toList()));
+        surveyService.saveSurveyList(Stream.of(survey1,survey2,survey3,survey4,survey5).collect(Collectors.toList()));
         surveySubmissionService.saveSurveySubmissionList(Stream.of(surveySubmission1,surveySubmission2,surveySubmission3,surveySubmission4).collect(Collectors.toList()));
 
     }

@@ -18,9 +18,15 @@ public interface SurveyService {
 
     long[][] getAnswerFrequencyBySurveyId(Long id);
 
+    long[][] getTotalQuestionSubmissionsBySurveyId(Long id);
+
     long[][] cleanAnswerFrequencyMatrix(Long id, long[][] statMatrix);
 
     int[] getCommentQuestionIndicesById(Long id);
 
     long[] getCommentQuestionIdsBySurveyId(Long id);
+
+    Survey[][] getSurveysInTypes();
+
+    long[][] getSurveySubmissionCounts();
 }

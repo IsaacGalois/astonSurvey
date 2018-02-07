@@ -12,21 +12,24 @@
         var choicePercent = (100 / numQuestions).toFixed(2);
         var progressionPercent = 0;
         var answeredQuestions = [];
+        var numAnsweredQuestions = 0;
 
-        $('.progress-text').text(progressionPercent + '%');
+        $('.progress-text').text(numAnsweredQuestions+"/"+numQuestions+" ");
 
         //update progress bar on radio choice selection
         $('.radioChoice').on('change', function () {
             if ($.inArray(this.name, answeredQuestions) === -1) {
                 progressionPercent += +(choicePercent.replace('%', ''));
+                numAnsweredQuestions++;
 
                 //todo: assumes page has less than 50 questions (adjust this later if paging is added)
                 if (progressionPercent > 99.5) {
                     progressionPercent = 100;
                 }
 
-                $('.progress-bar').css({'width': progressionPercent + '%'});
-                $('.progress-text').text(progressionPercent + '%');
+                $('.progress-bar').css({'width': progressionPercent.toFixed(2) + '%'});
+                $('.progress-text').text(numAnsweredQuestions+"/"+numQuestions+" ");
+                $('.progress-bar').text(progressionPercent.toFixed(2) + '%');
                 answeredQuestions.push(this.name);
             }
         });
@@ -35,14 +38,16 @@
         $('.surveyTextArea').on('click', function () {
             if ($.inArray(this.name, answeredQuestions) === -1) {
                 progressionPercent += +(choicePercent.replace('%', ''));
+                numAnsweredQuestions++;
 
                 //todo: assumes page has less than 50 questions (adjust this later if paging is added)
                 if (progressionPercent > 99.5) {
                     progressionPercent = 100;
                 }
 
-                $('.progress-bar').css({'width': progressionPercent + '%'});
-                $('.progress-text').text(progressionPercent + '%');
+                $('.progress-bar').css({'width': progressionPercent.toFixed(2) + '%'});
+                $('.progress-text').text(numAnsweredQuestions+"/"+numQuestions+" ");
+                $('.progress-bar').text(progressionPercent.toFixed(2) + '%');
                 answeredQuestions.push(this.name);
             }
         });
@@ -55,11 +60,13 @@
 <div class="container">
     <div>
 
-        <div class="progress" id="progress" style="width: 100%">
+        <div class="progress fixed-top" id="progress" style="width: 100%">
             <span class="progress-text"></span>
             <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                 role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                 role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%;color:#000000"></div>
         </div>
+
+        <hr class="bg-primary">
 
         <h1>${survey.type}</h1>
     </div>
@@ -156,16 +163,16 @@
 
                             <form:button type="reset" value="reset" onclick="window.location.reload()"
                                          class="btn btn-default">Reset</form:button>
-                            <form:button type="submit" value="save" class="btn btn-primary">Submit</form:button>
+                            <form:button type="submit" value="save" class="btn blueBackground text-light">Submit</form:button>
                         </div>
                     </div>
 
                 </form:form>
-                <%--</div>--%>
-                <%--<div class="col-lg-1">--%>
-                <%--</div>--%>
 
             </div>
+        </div>
+        <div class="col-lg-12">
+            <hr class="bg-primary" style="margin-bottom: 15%">
         </div>
     </div>
 </div>

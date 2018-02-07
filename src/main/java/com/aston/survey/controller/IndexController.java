@@ -42,19 +42,34 @@ public class IndexController {
         return "/index";
     }
 
+    @GetMapping(value = "/surveyHub")
+    public String surveyHub(Model model) {
+
+        model.addAttribute("surveyTypeArray",surveyService.getSurveysInTypes());
+        model.addAttribute("subCountsByTypeArray",surveyService.getSurveySubmissionCounts());
+
+        return "/survey/survey_hub";
+    }
+
     @GetMapping(value = "/takeSurvey/{id}")
     public String takeSurvey(@PathVariable long id, Model model) {
 
         Survey mySurvey = surveyService.getSurveyById(id);
 
+        //populate survey and its questions
         model.addAttribute("survey",mySurvey);
         model.addAttribute("questions",mySurvey.getQuestions());
+
+        //populate Comment handling data structures
         int[] commentIndexArray = surveyService.getCommentQuestionIndicesById(id);
         model.addAttribute("commentIndexArray",surveyService.getCommentQuestionIndicesById(id));
         model.addAttribute("numComments",commentIndexArray.length);
+
+        //emptyComment and emptyChoice ids
         model.addAttribute("emptyChoiceId",choiceService.getEmptyChoice().getId());
         model.addAttribute("emptyCommentId",commentService.getEmptyComment().getId());
 
+        //add VO
         model.addAttribute("surveySubmissionVO", new SurveySubmissionVO(mySurvey.getQuestions().size()));
 
         return "take_survey";
@@ -69,22 +84,40 @@ public class IndexController {
         return "thank_you";
     }
 
-    @GetMapping( value = "/adminStats/{id}")
-    public String getAdminStats(@PathVariable long id, Model model) {
+    @GetMapping(value = "/statsHub")
+    public String getStatsHub(Model model) {
+        model.addAttribute("surveyTypeArray", surveyService.getSurveysInTypes());
+        model.addAttribute("subCountsByTypeArray", surveyService.getSurveySubmissionCounts());
 
+        return "analytics/stats_hub";
+    }
+
+    @GetMapping( value = "/stats/{id}")
+    public String getStats(@PathVariable long id, Model model) {
+
+        //populate survey
         model.addAttribute("survey", surveyService.getSurveyById(id));
 
+        //populate Comment handling data structures
         int[] commentIndexArray = surveyService.getCommentQuestionIndicesById(id);
         model.addAttribute("commentIndexArray",commentIndexArray);
         model.addAttribute("numComments",commentIndexArray.length);
+
+        //populate the statistics array from database ("cleaned" if survey contains Comment questions)
         if(commentIndexArray.length > 0)
             model.addAttribute("statArray", surveyService.cleanAnswerFrequencyMatrix(id, surveyService.getAnswerFrequencyBySurveyId(id)));
         else
             model.addAttribute("statArray", surveyService.getAnswerFrequencyBySurveyId(id));
+
+        //populate total submissions for each question statistics
+//        todo: use this in stats display to show total submissions for each question and frequency percentage of each choice
+        model.addAttribute("totalQuestionSubmissionsArray",surveyService.getTotalQuestionSubmissionsBySurveyId(id));
+
+        //populate emptyChoice and emptyComment ids
         model.addAttribute("emptyChoiceId",choiceService.getEmptyChoice().getId());
         model.addAttribute("emptyCommentId",commentService.getEmptyComment().getId());
 
-        return "/admin/admin_stats";
+        return "analytics/stats";
     }
 
 }
@@ -94,8 +127,7 @@ public class IndexController {
 //todo: make deeper stat analysis?
 //todo: rest endpoints?
 //todo: add "write-ins" input text boxes (one line) as possible choices? <--will be time consuming and complicated...
-//todo: database seems to reject submissions with incomplete answers (not all questions mapped to an answer, even empty answer)
-//         ^-- is this a problem?
+//todo: database seems to reject submissions with incomplete answers (not all questions mapped to an answer, even empty answer) <--is this a problem?
 
 //later:
 //todo: add testing, full comments, & logging
