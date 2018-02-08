@@ -2,8 +2,12 @@
 <%@include file="includes/navbar.jsp" %>
 <div class="container">
     <div class="jumbotron">
-        <h2>Welcome to AstonTech Survey Application</h2>
-        <p>This application handles surveys for Aston Technologies.</p>
+        <h2>Welcome to the AstonTech Survey Application</h2>
+        <p>You've finally found what you were looking for, the Aston Technologies Survey Portal!
+            Feel free to click the links below and have a look around. When you're ready you can take any number of surveys you want.
+            Also don't hesitate to check out our statistics pages. These can show you interesting trends and aggregated results of previous survey entries,
+            and you don't even have to take a survey first, nice!
+        </p>
     </div>
 
     <div class="row" id="surveyButtons">
