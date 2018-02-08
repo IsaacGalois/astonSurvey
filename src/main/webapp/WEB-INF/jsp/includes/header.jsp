@@ -4,7 +4,8 @@
 <%@ taglib prefix="c1" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c2" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %>
+<!--todo: remove apache struts dependency?-->
+<%--<%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %>--%>
 
 <html>
 <head>

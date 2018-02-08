@@ -117,6 +117,11 @@ public class IndexController {
         return "analytics/stats";
     }
 
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+
 }
 
 //todo: add paging?
