@@ -8,7 +8,6 @@
     <%--main content column--%>
     <div class="col-lg-8">
         <h1 class="text-center">Choice Frequency Overview</h1>
-        <hr style="display: none">
 
         <h2 class="text-center">${survey.name}</h2>
         <%--table to display question/answer frequency statistics--%>
@@ -138,7 +137,7 @@
             </tbody>
         </table>
         <div class="col-lg-12">
-            <hr class="bg-primary" style="margin-bottom: 15%">
+            <hr class="astonBlueBackground" style="margin-bottom: 15%">
         </div>
     </div>
 

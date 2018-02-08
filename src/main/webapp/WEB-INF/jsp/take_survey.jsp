@@ -66,7 +66,7 @@
                  role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%;color:#000000"></div>
         </div>
 
-        <hr class="bg-primary">
+        <hr class="astonBlueBackground">
 
         <h1>${survey.type}</h1>
     </div>
@@ -154,7 +154,7 @@
 
                             </div>
                             <c:set var="questionNum" value="${questionNum + 1}" scope="page"/>
-                            <hr>
+                            <hr class="astonBlueBackground">
                         </c:forEach>
                     </fieldset>
 
@@ -163,7 +163,7 @@
 
                             <form:button type="reset" value="reset" onclick="window.location.reload()"
                                          class="btn btn-default">Reset</form:button>
-                            <form:button type="submit" value="save" class="btn blueBackground text-light">Submit</form:button>
+                            <form:button type="submit" value="save" class="btn astonBlueBackground text-light">Submit</form:button>
                         </div>
                     </div>
 
@@ -172,7 +172,7 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <hr class="bg-primary" style="margin-bottom: 15%">
+            <hr class="astonBlueBackground" style="margin-bottom: 15%">
         </div>
     </div>
 </div>

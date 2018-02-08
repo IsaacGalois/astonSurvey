@@ -30,11 +30,6 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
             nativeQuery = true)
     List<Object[]> getTotalQuestionSubmissionsById(@Param("id") Long id);
 
-//    @Query(value =
-//    "SELECT s.SURVEY_ID,s.NAME, s.TYPE " +
-//            "FROM SURVEY s\n" +
-//            "GROUP BY s.TYPE, s.SURVEY_ID",
-//            nativeQuery = true)
     List<Survey> findAllByOrderByTypeAsc();
 
     @Query(value =
