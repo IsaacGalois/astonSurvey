@@ -10,7 +10,7 @@
         </p>
     </div>
 
-    <div class="row" id="surveyButtons">
+    <div class="row">
 
         <div class="card bg-secondary col-lg-6">
             <div class="card-header astonBlueBackground text-light">Aston Tech Survey Hub</div>
@@ -32,6 +32,29 @@
     </div>
 
     <hr class="astonBlueBackground">
+
+    <div class="row">
+
+        <div class="card bg-secondary col-lg-6">
+            <div class="card-header astonBlueBackground text-light">Aston Tech Survey Hub</div>
+            <div class="card-body">
+                <h4 class="card-title">Make a Custom Survey</h4>
+                <p class="card-text">Want to ask the burning questions only you can come up with? Have a go at it with our Custom Survey Maker!</p>
+                <a href="https://afternoon-chamber-68582.herokuapp.com/surveyMaker/" class="btn astonBlueBackground text-light">Visit Survey Maker</a>
+            </div>
+        </div>
+
+        <div class="card bg-secondary col-lg-6">
+            <div class="card-header astonBlueBackground text-light">This Space for Rent</div>
+            <div class="card-body">
+                <h4 class="card-title">TBD</h4>
+                <p class="card-text"><i>(This space left intentionally blank)</i></p>
+                <a href="https://afternoon-chamber-68582.herokuapp.com/" class="btn astonBlueBackground text-light">Visit Nowhere</a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="astonBlueBackground gimmeSpaceFloor">
 
 </div>
 

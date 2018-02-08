@@ -19,6 +19,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         if(authenticationMethod.equals("IN_MEMORY")) {
             auth.inMemoryAuthentication().withUser("astonAdmin").password("qwe123$!").roles("ADMIN");
         }
+
+//        todo: add prod auth
     }
 
     @Override
@@ -28,14 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
             httpSecurity
 
                     //create authentication for ADMIN and anything with the URL=/admin/** or /console/**
-                    .authorizeRequests().antMatchers("/statsHub/**").access("hasRole('ROLE_ADMIN')")
-                    .and()
-                    .authorizeRequests().antMatchers("/stats/**").access("hasRole('ROLE_ADMIN')")
+                    .authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                     .and()
                     .authorizeRequests().antMatchers("/console/**").access("hasRole('ROLE_ADMIN')");
-
-//                .and()
-//                .authorizeRequests().antMatchers("/").access("hasRole");
 
             //default login page
             httpSecurity.formLogin();
@@ -43,9 +40,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
         //use custom login page "/login" mapped to login.jsp by IndexController
         httpSecurity
-                .formLogin().loginPage("/login").loginProcessingUrl("/login.do") //url->controller    url->action on jsp form
-                .defaultSuccessUrl("/", true).failureUrl("/login?err=1")              //success and failure urls
-                .usernameParameter("username").passwordParameter("password");   //username and password names on login.jsp
+                .formLogin().loginPage("/login").loginProcessingUrl("/login.do")                    //url->controller  url->action on jsp form
+                .defaultSuccessUrl("/", true).failureUrl("/login?err=1")    //success and failure urls
+                .usernameParameter("username").passwordParameter("password");                       //username and password names on login.jsp
 
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();

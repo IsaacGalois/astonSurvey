@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 public class SurveyServiceImpl implements SurveyService {
 
+    //region AUTOWIRED SERVICES AND BASIC CRUD
     @Autowired
     private SurveyRepository surveyRepository;
 
@@ -45,8 +46,9 @@ public class SurveyServiceImpl implements SurveyService {
     public void deleteSurvey(Long id) {
         surveyRepository.delete(id);
     }
+    //endregion
 
-    //region: statistics
+    //region STATISTICS
 //    Returns the count of each choice by question in a survey. If cleanComments is true, it trims the non-empty comment submissions from the result
     @Override
     public long[][] getAnswerFrequencyBySurveyId(Long id) {
@@ -127,7 +129,9 @@ public class SurveyServiceImpl implements SurveyService {
 
         return cleanMatrix;
     }
+    //endregion
 
+    //region AGGREGATE QUERIES AND COMMENT HELPERS
     @Override
     public long[][] getTotalQuestionSubmissionsBySurveyId(Long id) {
         List<Object[]> questionTotalArray = surveyRepository.getTotalQuestionSubmissionsById(id);
@@ -168,7 +172,6 @@ public class SurveyServiceImpl implements SurveyService {
 
         return questions.stream().filter(i -> i.getChoices().size() == 1).mapToLong(i -> i.getId()).toArray();
     }
-    //endregion
 
     @Override
     public Survey[][] getSurveysInTypes() {
@@ -239,4 +242,5 @@ public class SurveyServiceImpl implements SurveyService {
 
         return ret;
     }
+    //endregion
 }

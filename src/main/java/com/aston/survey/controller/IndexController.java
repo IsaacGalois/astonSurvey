@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class IndexController {
 
+    //region AUTOWIRED SERVICES
     @Autowired
     SurveyService surveyService;
 
@@ -28,7 +29,9 @@ public class IndexController {
 
     @Autowired
     SurveySubmissionServiceImpl surveySubmissionService;
+    //endregion
 
+    //region PUBLIC ACCESS
     @GetMapping(value = {"/",""})
     public String index(Model model) {
 
@@ -81,15 +84,22 @@ public class IndexController {
         return "thank_you";
     }
 
-    @GetMapping(value = "/statsHub")
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+    //endregion
+
+    //region ADMIN
+    @GetMapping(value = "/admin/statsHub")
     public String getStatsHub(Model model) {
         model.addAttribute("surveyTypeArray", surveyService.getSurveysInTypes());
         model.addAttribute("subCountsByTypeArray", surveyService.getSurveySubmissionCounts());
 
-        return "analytics/stats_hub";
+        return "admin/stats_hub";
     }
 
-    @GetMapping( value = "/stats/{id}")
+    @GetMapping( value = "/admin/stats/{id}")
     public String getStats(@PathVariable long id, Model model) {
 
         //populate survey
@@ -114,13 +124,15 @@ public class IndexController {
         model.addAttribute("emptyChoiceId",choiceService.getEmptyChoice().getId());
         model.addAttribute("emptyCommentId",commentService.getEmptyComment().getId());
 
-        return "analytics/stats";
+        return "admin/stats";
     }
-
-    @GetMapping(value = "/login")
-    public String login() {
-        return "login";
+    
+    @GetMapping(value = "/admin/surveyMaker")
+    public String surveyMaker(Model model) {
+        
+        return "/admin/survey_maker";
     }
+    //endregion
 
 }
 

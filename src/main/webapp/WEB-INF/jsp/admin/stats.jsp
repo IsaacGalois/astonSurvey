@@ -137,7 +137,7 @@
             </tbody>
         </table>
         <div class="col-lg-12">
-            <hr class="astonBlueBackground" style="margin-bottom: 15%">
+            <hr class="astonBlueBackground gimmeSpaceFloor">
         </div>
     </div>
 
