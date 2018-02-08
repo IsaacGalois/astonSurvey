@@ -127,7 +127,6 @@ public class IndexController {
 //todo: make deeper stat analysis?
 //todo: rest endpoints?
 //todo: add "write-ins" input text boxes (one line) as possible choices? <--will be time consuming and complicated...
-//todo: database seems to reject submissions with incomplete answers (not all questions mapped to an answer, even empty answer) <--is this a problem?
 
 //later:
 //todo: add testing, full comments, & logging
