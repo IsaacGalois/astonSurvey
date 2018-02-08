@@ -131,11 +131,20 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public long[][] getTotalQuestionSubmissionsBySurveyId(Long id) {
         List<Object[]> questionTotalArray = surveyRepository.getTotalQuestionSubmissionsById(id);
-        long[][] ret = new long[questionTotalArray.size()][];
+        long[][] ret = new long[questionTotalArray.size()][2];
 
-        for(int i=0;i<questionTotalArray.size();i++) {
-            ret[i][0] = ((java.math.BigInteger) questionTotalArray.get(i)[0]).longValue();
-            ret[i][1] = ((java.math.BigInteger) questionTotalArray.get(i)[2]).longValue();
+        if(questionTotalArray.size() > 0) {
+            for (int i = 0; i < questionTotalArray.size(); i++) {
+                ret[i][0] = ((java.math.BigInteger) questionTotalArray.get(i)[0]).longValue();
+                ret[i][1] = ((java.math.BigInteger) questionTotalArray.get(i)[1]).longValue();
+            }
+        } else {
+            List<Question> questionList = surveyRepository.findOne(id).getQuestions();
+            ret = new long[questionList.size()][2];
+            for(int i=0;i<questionList.size();i++) {
+                ret[i][0] = questionList.get(i).getId();
+                ret[i][1] = 0l;
+            }
         }
 
         return ret;

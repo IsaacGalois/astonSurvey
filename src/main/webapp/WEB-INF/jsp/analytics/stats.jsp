@@ -19,7 +19,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Question</th>
                 <th scope="col">Choice</th>
-                <th scope="col" class="text-center">Total Number of Submissions</th>
+                <th scope="col" class="text-center">Total Submissions for this Choice</th>
+                <th scope="col" class="text-center">Total Submissions of this Question</th>
+                <th scope="col" class="text-center">Percentage of time this Choice is chosen</th>
             </tr>
             </thead>
             <tbody>
@@ -52,6 +54,10 @@
                     <%--and it will grab the stats of the next question with a submitted choice. FIX!!--%>
 
                     <tr>
+
+                            <%--hold choice counts in a page variable--%>
+                        <c:set var="choiceSubCount" value="0"/>
+
                         <c:choose>
                             <%--Check if this question is a multiple choice question--%>
                             <c:when test="${currQuestionNum-1 != commentIndexArray[currCommentIndex]}">
@@ -64,7 +70,9 @@
                                     <%--Check if this entry is a submission for this question and this choice, if so move to next row, otherwise entry must be zero.
                                             We must generate these because entries for choices not made are not put in the database --%>
                                     <c1:when test="${statArrayRowIsForThisQuestion && statArrayRowIsForThisChoice}">
-                                        <td scope="col" class="text-center">${statArray[currRowInStatArray][2]}</td>
+                                        <%--update choiceSubCount--%>
+                                        <c:set var="choiceSubCount" value="${statArray[currRowInStatArray][2]}"/>
+                                        <td scope="col" class="text-center">${choiceSubCount}</td>
                                         <c:set var="currRowInStatArray" value="${currRowInStatArray + 1}"/>
                                     </c1:when>
                                     <c1:otherwise>
@@ -84,7 +92,9 @@
                                     <%--Check if this entry is a submission for this question and this choice, if so move to next row, otherwise entry must be zero.--%>
                                     <c1:when
                                             test="${statArrayRowIsForThisQuestion && choice.id == statArray[currRowInStatArray][1] && choice.id == emptyCommentId}">
-                                        <td scope="col" class="text-center">${statArray[currRowInStatArray][2]}</td>
+                                        <%--update choiceSubCount--%>
+                                        <c:set var="choiceSubCount" value="${statArray[currRowInStatArray][2]}"/>
+                                        <td scope="col" class="text-center">${choiceSubCount}</td>
                                         <c:set var="currRowInStatArray" value="${currRowInStatArray + 1}"/>
                                     </c1:when>
 
@@ -103,6 +113,21 @@
 
                         </c:choose>
 
+                            <%--add total submission count and percentage chosen columns--%>
+                        <c:set var="totalQuestionSubs" value="${totalQuestionSubmissionsArray[currQuestionNum-1][1]}" />
+                        <td scope="col" class="text-center">${totalQuestionSubs}</td>
+                        <td scope="col" class="text-center percentageDisplay">
+                            <c:choose>
+                                <c:when test="${totalQuestionSubs != 0}">
+                                    ${(choiceSubCount/(totalQuestionSubmissionsArray[currQuestionNum-1][1]))*100}%
+                                </c:when>
+                                <c:otherwise>
+                                    0%
+                                </c:otherwise>
+                            </c:choose>
+
+                        </td>
+
                     </tr>
 
                 </c:forEach>
@@ -120,6 +145,19 @@
     <%--right side empty framing column--%>
     <div class="col-lg-2"></div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var percent;
+
+//        format each percentage display
+        $('.percentageDisplay').each(function() {
+            percent = +($(this).text().replace("%",""));
+            $(this).text(percent.toFixed(2)+"%");
+        });
+
+    });
+</script>
 
 
 <%@include file="../includes/footer.jsp" %>

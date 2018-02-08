@@ -25,7 +25,7 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
             "FROM SURVEY_SUBMISSION_SUBMITTED_ANSWERS s, SURVEY_SUBMISSION u \n" +
             "WHERE s.SURVEY_SUBMISSION_SURVEY_SUBMISSION_ID = u.SURVEY_SUBMISSION_ID\n" +
             "AND u.SURVEY_SURVEY_ID = :id\n" +
-            "GROUP BY s.SUBMITTED_ANSWERS_KEY,  s.SUBMITTED_ANSWERS_CHOICE_ID\n" +
+            "GROUP BY s.SUBMITTED_ANSWERS_KEY\n" +
             "ORDER BY s.SUBMITTED_ANSWERS_KEY ASC",
             nativeQuery = true)
     List<Object[]> getTotalQuestionSubmissionsById(@Param("id") Long id);
