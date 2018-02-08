@@ -27,7 +27,7 @@
                 <ul class="list-group">
                     <c1:forEach var="survey" items="${type}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="http://localhost:8080/stats/${survey.id}"
+                            <a href="https://afternoon-chamber-68582.herokuapp.com/stats/${survey.id}"
                                class="btn astonBlueBackground text-light">
                                     ${survey.name}
                             </a>

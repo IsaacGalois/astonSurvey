@@ -17,7 +17,7 @@
             <div class="card-body">
                 <h4 class="card-title">One-Stop Shop for Aston Tech Surveys</h4>
                 <p class="card-text">Take a look at some of Aston Technologies' fine surveys, and take as many as you want!</p>
-                <a href="http://localhost:8080/surveyHub/" class="btn astonBlueBackground text-light">Visit Survey Hub</a>
+                <a href="https://afternoon-chamber-68582.herokuapp.com/surveyHub/" class="btn astonBlueBackground text-light">Visit Survey Hub</a>
             </div>
         </div>
 
@@ -26,7 +26,7 @@
             <div class="card-body">
                 <h4 class="card-title">Meaningful Statistics & Analysis</h4>
                 <p class="card-text">See some of the aggregated results of our surveys. These metrics are used to fine tune the way we do business to serve you better!</p>
-                <a href="http://localhost:8080/statsHub" class="btn astonBlueBackground text-light">Visit Stats Hub</a>
+                <a href="https://afternoon-chamber-68582.herokuapp.com/statsHub" class="btn astonBlueBackground text-light">Visit Stats Hub</a>
             </div>
         </div>
     </div>
