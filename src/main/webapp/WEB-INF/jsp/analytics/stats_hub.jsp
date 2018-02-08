@@ -14,7 +14,14 @@
 
     <div id="main-wrapper" class="col-lg-12">
         <c:forEach var="type" items="${surveyTypeArray}">
-            <h2 class="text-center">${type[0].type}</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="text-left">${type[0].type}</h2>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="text-right">Total Submissions</h2>
+                </div>
+            </div>
             <hr class="astonBlueBackground">
             <div class="col-lg-12">
                 <ul class="list-group">
