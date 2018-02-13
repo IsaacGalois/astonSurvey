@@ -7,44 +7,18 @@
 <script>
     $(document).ready(function () {
 
-        console.log(JSON.stringify(survey));
+//        console.log(JSON.stringify(survey));
 
-//        var choiceNum = 1;
-
-//        handle multiple choice case by allowing addition of choices
-//        $('.commentNo').on('click', function () {
-//            var questionNum = this.id.replace(/([a-zA-Z])+/, "").toString();
-//            console.log("commentNo num: " + this.id.replace(/([a-zA-Z])+/, ""));
-//
-//            populateMultipleChoice(questionNum);
-//        });
-
-//        handle comment case by eliminating any choice addition elements if present
-//        $('.commentYes').on('click', function () {
-//            var idName = '#multipleChoiceContainer' + this.id.replace(/([a-zA-Z])+/, "");
-//
-//            console.log("idName: " + idName);
-//
-//            $('#multipleChoiceContainer' + this.id.replace(/([a-zA-Z])+/, "")).empty();
-//        })
     });
 </script>
 
 <div class="container">
 
-    <%--surveyname,surveytype->add a question->save survey  --%>
-    <%--                        |->questiontext, add choices--%>
-
     <div id="main-wrapper" class="col-lg-12">
 
-        <%--<form class="form-horizontal">--%>
-        <%--<fieldset>--%>
         <h2>Survey Maker: Input new Survey details below</h2>
 
         <hr class="astonBlueBackground">
-
-        <%--<hidden id="surveyId"/>--%>
-        <%--<hidden id="surveyVersion"/>--%>
 
         <div id="surveyContainer">
             <%--Survey Name--%>
@@ -88,8 +62,7 @@
 
         </div>
         <hr class="astonBlueBackground gimmeSpaceFloor">
-        <%--</fieldset>--%>
-        <%--</form>--%>
+
     </div>
 
 
