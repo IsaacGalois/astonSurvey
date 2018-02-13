@@ -5,7 +5,7 @@
 <%@ taglib prefix="c2" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
+<html lang="en">
 <head>
     <%--todo: clean up js and css imports below--%>
 
