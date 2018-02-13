@@ -27,7 +27,7 @@ public class SurveyRest {
     @PostMapping(value = "/")
     public Survey save(@RequestBody Survey survey) {
 
-        survey = surveyService.addEmptyChoiceToMakerQuestions(survey);
+        survey = surveyService.addEmptyChoiceAndOrCommentToMakerQuestions(survey);
 
         return surveyService.saveSurvey(survey);
     }

@@ -61,9 +61,9 @@
                             <%--Check if this question is a multiple choice question--%>
                             <c:when test="${currQuestionNum-1 != commentIndexArray[currCommentIndex]}">
                                 <%--Check if choice is the empty choice. If so we know it is the first entry of a new question so display currQuestionNum, questionText, and (Empty) in different columns.--%>
-                                <td scope="col">${choice.id == emptyChoiceId ? currQuestionNum : ""}</td>
-                                <td scope="col">${choice.id == emptyChoiceId ? question.questionText : ""}</td>
-                                <td scope="col">${!choice.choiceText.equals("") ? choice.choiceText : "(Empty)"}</td>
+                                <td scope="col" class="text-center">${choice.id == emptyChoiceId ? currQuestionNum : ""}</td>
+                                <td scope="col" class="text-center">${choice.id == emptyChoiceId ? question.questionText : ""}</td>
+                                <td scope="col" class="text-center">${!choice.choiceText.equals("") ? choice.choiceText : "(Empty)"}</td>
 
                                 <c1:choose>
                                     <%--Check if this entry is a submission for this question and this choice, if so move to next row, otherwise entry must be zero.
@@ -83,9 +83,9 @@
                             <%--Otherwise it is a comment question--%>
                             <c:otherwise>
                                 <%--For Comment Questions only display the frequency of empty comments--%>
-                                <td scope="col">${currQuestionNum}</td>
-                                <td scope="col">${question.questionText}</td>
-                                <td scope="col">(Empty Comment)</td>
+                                <td scope="col" class="text-center">${currQuestionNum}</td>
+                                <td scope="col" class="text-center">${question.questionText}</td>
+                                <td scope="col" class="text-center">(Empty Comment)</td>
 
                                 <c1:choose>
                                     <%--Check if this entry is a submission for this question and this choice, if so move to next row, otherwise entry must be zero.--%>

@@ -1,3 +1,4 @@
+
 var survey = {
     "id" : null,
     "version" : null,
@@ -91,41 +92,52 @@ function insertQuestion() {
     $('#questionVersion').val("");
     $('#inputQuestionText').val("");
     $('#textAreaChoices').val("");
+    $('#commentNo').prop("checked",true);
+    $('#commentYes').prop("checked",false);
 
     //open modal
     $('#questionModal').modal('show');
-
 };
 
 
-function saveQuestion() {
+function addQuestion() {
     var questionText = $('#inputQuestionText').val();
     var choices = $('#textAreaChoices').val();
 
     var choiceArray = choices.split('\n');
-    console.log(choiceArray);
+    // console.log(choiceArray);
 
     var question = {
         id: null,
         version: null,
         questionText: questionText,
         choices: []
-        //     {
-        //     id: 1,
-        //     version: 0,
-        //     choiceText: ""
-        // }]
     };
 
-    choiceArray.forEach(function(item) {
+    // console.log($('#commentNo').prop("checked"));
+    // console.log($('#commentYes').prop("checked"));
+
+    if($('#commentNo').prop("checked")) {
+        choiceArray.forEach(function (item) {
+            question.choices.push(
+                {
+                    id: null,
+                    version: null,
+                    choiceText: item
+                }
+            )
+        });
+    }
+    else {
+        // console.log("a comment");
         question.choices.push(
             {
                 id: null,
                 version: null,
-                choiceText: item
+                choiceText: "a comment"
             }
         )
-    });
+    }
 
     console.log(JSON.stringify(question));
 
@@ -137,28 +149,8 @@ function saveQuestion() {
 
     $('#questionModal').modal('hide');
 
-    console.log("Question:");
-    console.log(JSON.stringify(question));
-
-    // $.ajax({
-    //     type: "post",
-    //     data: JSON.stringify(question),
-    //     url: "http://localhost:8080/api/questions/",
-    //     async: true,
-    //     dataType: "json",
-    //     contentType: "application/json",
-    //     success: function(dbResponse) {
-    //         console.log("Db Response: ");
-    //         console.log(dbResponse);
-    //         // window.location.reload();
-    //     },
-    //     error: function(dbResponse) {
-    //         alert("Could Not Save Question");
-    //         console.log("Db Response: ");
-    //         console.log(dbResponse);
-    //     }
-    // });
-
+    // console.log("Question:");
+    // console.log(JSON.stringify(question));
 
 };
 
@@ -170,11 +162,9 @@ function populateQuestions() {
             "<li id="+qIndex+">"+
             "<button type='button' class='btn btn-danger' onclick='removeQuestion("+qIndex+")'>X</button>" +
             "    " + question.questionText + " -   Choices: "
-            // "<ul class='list-group'>"
         )
         $.each(question.choices, function(cIndex,choice) {
             $('#' + qIndex).append(
-            // $('#questionsContainer').find('li').append(
                 choice.choiceText + ", "
             )
         });
@@ -183,6 +173,18 @@ function populateQuestions() {
             "</ul>"
         )
     });
+}
+
+function removeQuestion(qIndex) {
+    //ES2015 (ES6) Way
+    survey.questions = survey.questions.filter(item => item !== survey.questions[qIndex])
+
+    //Old School ES5 way
+    // survey.questions = survey.questions.filter(function(item) {
+    //     return item !== survey.questions[qIndex];
+    // });
+
+    populateQuestions();
 }
 
 function saveSurvey() {
@@ -201,6 +203,7 @@ function saveSurvey() {
     var url = window.location.href;
     console.log("url: "+url);
 
+    // adapt for http (localhost) or https (Heroku)
     var surveyPostUrl = url.charAt(4) === 's' ? "https://afternoon-chamber-68582.herokuapp.com/api/surveys/" : "http://localhost:8080/api/surveys/";
 
     console.log("surveyPostUrl: "+surveyPostUrl);
@@ -213,30 +216,18 @@ function saveSurvey() {
             dataType: "json",
             contentType: "application/json",
             success: function(dbResponse) {
-                console.log("Db Response: ");
-                console.log(dbResponse);
+                // console.log("Db Response: ");
+                // console.log(dbResponse);
                 window.location.href = "/admin/addSurvey";
             },
             error: function(dbResponse) {
                 alert("Could Not Save Survey");
-                console.log("Db Response: ");
-                console.log(dbResponse);
+                // console.log("Db Response: ");
+                // console.log(dbResponse);
             }
         });
 
 }
 
-function removeQuestion(qIndex) {
-    //ES2015 (ES6) Way
-    survey.questions = survey.questions.filter(item => item !== survey.questions[qIndex])
-
-    //Old School ES5 way
-    // survey.questions = survey.questions.filter(function(item) {
-    //     return item !== survey.questions[qIndex];
-    // });
-    populateQuestions();
-}
-
-// todo: add comment answer functionality
 // todo: test admin lock-down, possibly eliminate choice and question rest endpoints
 // todo: make survey not a global item but an iffy that has getters and setters?

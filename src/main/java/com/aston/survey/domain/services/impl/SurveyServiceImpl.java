@@ -143,7 +143,7 @@ public class SurveyServiceImpl implements SurveyService {
         List<Object[]> questionTotalArray = surveyRepository.getTotalQuestionSubmissionsById(id);
         long[][] ret = new long[questionTotalArray.size()][2];
 
-        if(questionTotalArray.size() > 0) {
+        if (questionTotalArray.size() > 0) {
             for (int i = 0; i < questionTotalArray.size(); i++) {
                 ret[i][0] = ((java.math.BigInteger) questionTotalArray.get(i)[0]).longValue();
                 ret[i][1] = ((java.math.BigInteger) questionTotalArray.get(i)[1]).longValue();
@@ -151,7 +151,7 @@ public class SurveyServiceImpl implements SurveyService {
         } else {
             List<Question> questionList = surveyRepository.findOne(id).getQuestions();
             ret = new long[questionList.size()][2];
-            for(int i=0;i<questionList.size();i++) {
+            for (int i = 0; i < questionList.size(); i++) {
                 ret[i][0] = questionList.get(i).getId();
                 ret[i][1] = 0l;
             }
@@ -241,7 +241,7 @@ public class SurveyServiceImpl implements SurveyService {
         List<Object[]> subCountArray = surveyRepository.getSurveySubmissionCountsOrderedByType();
         long[][] ret = new long[subCountArray.size()][2];
 
-        for(int i=0;i<subCountArray.size();i++) {
+        for (int i = 0; i < subCountArray.size(); i++) {
             ret[i][0] = ((java.math.BigInteger) subCountArray.get(i)[0]).longValue();
             ret[i][1] = ((java.math.BigInteger) subCountArray.get(i)[2]).longValue();
         }
@@ -252,11 +252,22 @@ public class SurveyServiceImpl implements SurveyService {
 
     //region MAKER HELPER METHODS
     @Override
-    public Survey addEmptyChoiceToMakerQuestions(Survey survey) {
+    public Survey addEmptyChoiceAndOrCommentToMakerQuestions(Survey survey) {
         List<Question> questionList = new ArrayList<>();
 
-        for(Question question: survey.getQuestions()) {
-            questionList.add(questionService.addEmptyChoiceToFrontOfChoiceList(question));
+        List<Question> oldQuestionList = survey.getQuestions();
+
+        for (int i=0;i<oldQuestionList.size();i++) {
+            Question question = oldQuestionList.get(i);
+            List<Choice> oldChoiceList = question.getChoices();
+            if (oldChoiceList.size() == 1 && oldChoiceList.get(0).getChoiceText().equals("a comment")) {
+                List<Choice> choiceList = new ArrayList<>();
+                choiceList.add(commentService.getEmptyComment());
+                question.setChoices(choiceList);
+                questionList.add(question);
+            } else {
+                questionList.add(questionService.addEmptyChoiceToFrontOfChoiceList(question));
+            }
         }
 
         survey.setQuestions(questionList);

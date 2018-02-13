@@ -30,5 +30,5 @@ public interface SurveyService {
 
     long[][] getSurveySubmissionCounts();
 
-    Survey addEmptyChoiceToMakerQuestions(Survey survey);
+    Survey addEmptyChoiceAndOrCommentToMakerQuestions(Survey survey);
 }

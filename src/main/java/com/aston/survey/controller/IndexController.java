@@ -143,6 +143,7 @@ public class IndexController {
 //todo: make stats page for non-empty comments?
 //todo: make deeper stat analysis?
 //todo: add "write-ins" input text boxes (one line) as possible choices? <--will be time consuming and complicated...
+//todo: add sql injection protection. (@Valid?)
 
 //later:
 //todo: add testing, full comments, & logging

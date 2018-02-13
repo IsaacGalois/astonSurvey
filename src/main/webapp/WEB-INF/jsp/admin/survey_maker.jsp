@@ -9,6 +9,14 @@
 
 //        console.log(JSON.stringify(survey));
 
+        $('#commentNo').on('click', function () {
+            $('#textAreaChoicesContainer').show();
+        });
+
+        $('#commentYes').on('click', function () {
+            $('#textAreaChoicesContainer').hide();
+        })
+
     });
 </script>
 
@@ -39,6 +47,7 @@
                 </div>
             </div>
 
+            <%--display Questions--%>
             <div id="questionsContainer" class="col-lg-12">
                 <p>Questions:</p>
                 <ul class="list-group">
@@ -93,7 +102,7 @@
                             <div class="form-check">
                                 <div class="col-lg-12">
                                     <input type="radio" id="commentNo" name="commentYesNo" value="false"
-                                           class="radioChoice commentNo">
+                                           class="radioChoice commentNo" checked="checked">
                                     <label for="commentNo" class="form-check-label">No</label>
 
                                     <input type="radio" id="commentYes" name="commentYesNo" value="true"
@@ -102,7 +111,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" id="textAreaChoicesContainer">
                                 <label for="textAreaChoices" class="col-lg-2 control-label">Choices</label>
                                 <div class="col-lg-10">
                                     <textarea class="form-control" rows="4" id="textAreaChoices"
@@ -114,7 +123,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn astonBlueBackground text-light" onclick="saveQuestion()">
+                    <button type="button" class="btn astonBlueBackground text-light" onclick="addQuestion()">
                         Add Question
                     </button>
                 </div>
