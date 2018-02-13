@@ -140,7 +140,7 @@ function addQuestion() {
         )
     }
 
-    console.log(JSON.stringify(question));
+    // console.log(JSON.stringify(question));
 
     survey.questions.push(question);
     survey.name = $('#inputSurveyName').val();
@@ -198,16 +198,12 @@ function saveSurvey() {
         "questions" : survey.questions
     }
 
-    console.log("Survey:");
-    console.log(JSON.stringify(surveyToSave));
-
-    var url = window.location.href;
-    console.log("url: "+url);
+    // console.log("Survey:");
+    // console.log(JSON.stringify(surveyToSave));
 
     // adapt for http (localhost) or https (Heroku)
+    var url = window.location.href;
     var surveyPostUrl = url.charAt(4) === 's' ? "https://afternoon-chamber-68582.herokuapp.com/api/surveys/" : "http://localhost:8080/api/surveys/";
-
-    console.log("surveyPostUrl: "+surveyPostUrl);
 
     $.ajax({
             type: "post",

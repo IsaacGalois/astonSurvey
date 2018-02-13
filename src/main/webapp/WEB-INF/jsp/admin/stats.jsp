@@ -136,6 +136,14 @@
 
             </tbody>
         </table>
+        <div class="col-lg-12 row">
+            <div class="col-lg-6">
+                <a href="https://afternoon-chamber-68582.herokuapp.com/surveyHub/" class="btn astonBlueBackground text-light">Visit Survey Hub</a>
+            </div>
+            <div class="col-lg-6">
+                <a href="https://afternoon-chamber-68582.herokuapp.com/admin/statsHub/" class="btn astonBlueBackground text-light">Visit Statistics Hub</a>
+            </div>
+        </div>
         <div class="col-lg-12">
             <hr class="astonBlueBackground gimmeSpaceFloor">
         </div>
