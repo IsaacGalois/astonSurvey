@@ -26,7 +26,7 @@
             <div class="card-body">
                 <h4 class="card-title">Meaningful Statistics & Analysis</h4>
                 <p class="card-text">See some of the aggregated results of our surveys. These metrics are used to fine tune the way we do business to serve you better!</p>
-                <a href="https://afternoon-chamber-68582.herokuapp.com/statsHub" class="btn astonBlueBackground text-light">Visit Stats Hub</a>
+                <a href="https://afternoon-chamber-68582.herokuapp.com/admin/statsHub" class="btn astonBlueBackground text-light">Visit Stats Hub</a>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
             <div class="card-body">
                 <h4 class="card-title">Make a Custom Survey</h4>
                 <p class="card-text">Want to ask the burning questions only you can come up with? Have a go at it with our Custom Survey Maker!</p>
-                <a href="https://afternoon-chamber-68582.herokuapp.com/surveyMaker/" class="btn astonBlueBackground text-light">Visit Survey Maker</a>
+                <a href="https://afternoon-chamber-68582.herokuapp.com/admin/surveyMaker/" class="btn astonBlueBackground text-light">Visit Survey Maker</a>
             </div>
         </div>
 
