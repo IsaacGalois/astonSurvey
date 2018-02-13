@@ -201,7 +201,7 @@ function saveSurvey() {
     var url = window.location.href;
     console.log("url: "+url);
 
-    var surveyPostUrl = url.charAt(5) === 's' ? "https://localhost:8080/api/surveys/" : "http://localhost:8080/api/surveys/";
+    var surveyPostUrl = url.charAt(4) === 's' ? "https://localhost:8080/api/surveys/" : "http://localhost:8080/api/surveys/";
 
     console.log("surveyPostUrl: "+surveyPostUrl);
 
