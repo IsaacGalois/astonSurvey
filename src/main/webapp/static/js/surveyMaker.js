@@ -94,6 +94,7 @@ function insertQuestion() {
     $('#textAreaChoices').val("");
     $('#commentNo').prop("checked",true);
     $('#commentYes').prop("checked",false);
+    $('#textAreaChoicesContainer').show();
 
     //open modal
     $('#questionModal').modal('show');
@@ -134,7 +135,7 @@ function addQuestion() {
             {
                 id: null,
                 version: null,
-                choiceText: "a comment"
+                choiceText: "EMPTY COMMENT PL@C3H07D3R"
             }
         )
     }

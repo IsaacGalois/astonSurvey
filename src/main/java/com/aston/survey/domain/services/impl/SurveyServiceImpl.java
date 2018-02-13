@@ -260,7 +260,7 @@ public class SurveyServiceImpl implements SurveyService {
         for (int i=0;i<oldQuestionList.size();i++) {
             Question question = oldQuestionList.get(i);
             List<Choice> oldChoiceList = question.getChoices();
-            if (oldChoiceList.size() == 1 && oldChoiceList.get(0).getChoiceText().equals("a comment")) {
+            if (oldChoiceList.size() == 1 && oldChoiceList.get(0).getChoiceText().equals("EMPTY COMMENT PL@C3H07D3R")) {
                 List<Choice> choiceList = new ArrayList<>();
                 choiceList.add(commentService.getEmptyComment());
                 question.setChoices(choiceList);
