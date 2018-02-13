@@ -117,7 +117,6 @@ public class IndexController {
             model.addAttribute("statArray", surveyService.getAnswerFrequencyBySurveyId(id));
 
         //populate total submissions for each question statistics
-//        todo: use this in stats display to show total submissions for each question and frequency percentage of each choice
         model.addAttribute("totalQuestionSubmissionsArray",surveyService.getTotalQuestionSubmissionsBySurveyId(id));
 
         //populate emptyChoice and emptyComment ids
@@ -128,9 +127,13 @@ public class IndexController {
     }
     
     @GetMapping(value = "/admin/surveyMaker")
-    public String surveyMaker(Model model) {
-        
+    public String surveyMaker() {
         return "/admin/survey_maker";
+    }
+
+    @GetMapping(value = "/admin/addSurvey")
+    public String surveyAdded() {
+        return "/admin/survey_added";
     }
     //endregion
 
@@ -139,7 +142,6 @@ public class IndexController {
 //todo: add paging?
 //todo: make stats page for non-empty comments?
 //todo: make deeper stat analysis?
-//todo: rest endpoints?
 //todo: add "write-ins" input text boxes (one line) as possible choices? <--will be time consuming and complicated...
 
 //later:

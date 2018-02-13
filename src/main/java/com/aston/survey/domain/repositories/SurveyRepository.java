@@ -4,6 +4,7 @@ import com.aston.survey.domain.Survey;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
     @Query(value =
             "SELECT s.SURVEY_ID, s.TYPE, COUNT(u.SURVEY_SURVEY_ID) FROM SURVEY s\n" +
                     "LEFT OUTER JOIN SURVEY_SUBMISSION u ON u.SURVEY_SURVEY_ID = s.SURVEY_ID\n" +
-                    "GROUP BY u.SURVEY_SURVEY_ID\n" +
+                    "GROUP BY u.SURVEY_SURVEY_ID,s.SURVEY_ID\n" +
                     "ORDER BY s.TYPE ASC",
             nativeQuery = true)
     List<Object[]> getSurveySubmissionCountsOrderedByType();

@@ -13,4 +13,6 @@ public interface QuestionService {
     Iterable<Question> saveQuestionList(Iterable<Question> questionIterable);
 
     void deleteQuestion(Long id);
+
+    Question addEmptyChoiceToFrontOfChoiceList(Question question);
 }

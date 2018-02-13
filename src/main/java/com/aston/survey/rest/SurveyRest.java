@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/surveys")
+@RequestMapping("/api/surveys")
 public class SurveyRest {
 
     private Logger log = Logger.getLogger(SurveyRest.class);
@@ -25,7 +25,12 @@ public class SurveyRest {
 
     //SAVE
     @PostMapping(value = "/")
-    public Survey save(@RequestBody Survey survey) { return surveyService.saveSurvey(survey);}
+    public Survey save(@RequestBody Survey survey) {
+
+        survey = surveyService.addEmptyChoiceToMakerQuestions(survey);
+
+        return surveyService.saveSurvey(survey);
+    }
 
     //DELETE
     @DeleteMapping(value = "/{id}")

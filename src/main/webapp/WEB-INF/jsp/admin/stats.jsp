@@ -9,7 +9,7 @@
     <div class="col-lg-8">
         <h1 class="text-center">Choice Frequency Overview</h1>
 
-        <h2 class="text-center">${survey.name}</h2>
+        <h2 class="text-center">${survey.type} - ${survey.name}</h2>
         <%--table to display question/answer frequency statistics--%>
         <table class="table table-hover table-striped">
             <%--Make table column headers--%>

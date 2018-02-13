@@ -68,7 +68,7 @@
 
         <hr class="astonBlueBackground">
 
-        <h1>${survey.type}</h1>
+        <h1>${survey.type} - ${survey.name}</h1>
     </div>
     <div id="main-wrapper" class="col-lg-12">
 
@@ -76,7 +76,7 @@
 
         <div class="row">
 
-            <div>
+            <div style="width: 100%">
                 <form:form cssClass="form-horizontal" modelAttribute="surveySubmissionVO"
                            action="/submitSurvey/${survey.id}" method="post">
 

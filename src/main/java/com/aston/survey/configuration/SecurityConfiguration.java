@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.security.authentication.method}")
     private String authenticationMethod;
@@ -16,21 +16,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         //In memory authentication (DEV)
-        if(authenticationMethod.equals("IN_MEMORY")) {
+        if (authenticationMethod.equals("IN_MEMORY")) {
             auth.inMemoryAuthentication().withUser("astonAdmin").password("qwe123$!").roles("ADMIN");
         }
 
-//        todo: add prod auth
+//        todo: add prod auth (database or token)
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-
-        if (authenticationMethod.equals("IN_MEMORY")) {
+        if (authenticationMethod.equals("NONE")) {
             httpSecurity
+                    .authorizeRequests().antMatchers("/**").permitAll()
+                    .and()
+                    .authorizeRequests().antMatchers("/console/**").permitAll();
 
+        } else if (authenticationMethod.equals("IN_MEMORY")) {
+            httpSecurity
                     //create authentication for ADMIN and anything with the URL=/admin/** or /console/**
                     .authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                    .and()
+                    .authorizeRequests().antMatchers("/api/**").access("hasRole('ROLE_ADMIN')")
                     .and()
                     .authorizeRequests().antMatchers("/console/**").access("hasRole('ROLE_ADMIN')");
 

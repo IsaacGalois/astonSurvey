@@ -29,4 +29,6 @@ public interface SurveyService {
     Survey[][] getSurveysInTypes();
 
     long[][] getSurveySubmissionCounts();
+
+    Survey addEmptyChoiceToMakerQuestions(Survey survey);
 }

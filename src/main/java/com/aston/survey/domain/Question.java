@@ -24,7 +24,7 @@ public class Question {
     private String questionText;
 
     //Fetch type must be lazy or else on get survey request (GET /takeSurvey/{id}) will do triple join of
-    // surveys with questions with choices. So surveys will come back with question lists that have a seperate
+    // surveys with questions with choices. So surveys will come back with question lists that have a separate
     // question entry for each choice that question has.
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Choice> choices;

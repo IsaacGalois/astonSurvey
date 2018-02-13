@@ -73,12 +73,6 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>4.0.3.RELEASE</version>
 		</dependency>
-		<!--todo: remove apache struts dependency?-->
-		<!--<dependency>-->
-			<!--<groupId>org.apache.struts</groupId>-->
-			<!--<artifactId>struts-taglib</artifactId>-->
-			<!--<version>1.3.10</version>-->
-		<!--</dependency>-->
 
 		<!--Webjars-->
 		<dependency>

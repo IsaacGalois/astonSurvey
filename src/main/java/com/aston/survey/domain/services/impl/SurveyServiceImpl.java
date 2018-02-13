@@ -1,12 +1,15 @@
 package com.aston.survey.domain.services.impl;
 
+import com.aston.survey.domain.Choice;
 import com.aston.survey.domain.Question;
 import com.aston.survey.domain.Survey;
 import com.aston.survey.domain.repositories.SurveyRepository;
 import com.aston.survey.domain.services.CommentService;
+import com.aston.survey.domain.services.QuestionService;
 import com.aston.survey.domain.services.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +24,9 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @Override
     public Iterable<Survey> listAllSurveys() {
@@ -242,5 +248,21 @@ public class SurveyServiceImpl implements SurveyService {
 
         return ret;
     }
+    //endregion
+
+    //region MAKER HELPER METHODS
+    @Override
+    public Survey addEmptyChoiceToMakerQuestions(Survey survey) {
+        List<Question> questionList = new ArrayList<>();
+
+        for(Question question: survey.getQuestions()) {
+            questionList.add(questionService.addEmptyChoiceToFrontOfChoiceList(question));
+        }
+
+        survey.setQuestions(questionList);
+
+        return survey;
+    }
+
     //endregion
 }
