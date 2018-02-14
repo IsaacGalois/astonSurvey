@@ -31,6 +31,19 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
             nativeQuery = true)
     List<Object[]> getTotalQuestionSubmissionsById(@Param("id") Long id);
 
+    @Query(value =
+            "SELECT q.QUESTION_TEXT, c.COMMENT_TEXT\n" +
+                    "FROM SURVEY_SUBMISSION_SUBMITTED_ANSWERS s, SURVEY_SUBMISSION u, CHOICE c, QUESTION Q\n" +
+                    "WHERE s.SURVEY_SUBMISSION_SURVEY_SUBMISSION_ID = u.SURVEY_SUBMISSION_ID \n" +
+                    "AND s.SUBMITTED_ANSWERS_CHOICE_ID = c.CHOICE_ID \n" +
+                    "AND s.SUBMITTED_ANSWERS_KEY = q.QUESTION_ID\n" +
+                    "AND c.COMMENT_TEXT IS NOT NULL \n" +
+                    "AND c.CHOICE_ID != :emptyCommentId \n" +
+                    "AND u.SURVEY_SURVEY_ID = :id\n" +
+                    "ORDER BY q.QUESTION_ID ASC",
+            nativeQuery = true)
+    List<Object[]> getQuestionAndNonEmptyCommentChoiceIdArrayBySurveyId(@Param("id") Long id, @Param("emptyCommentId") Long emptyCommentId);
+
     List<Survey> findAllByOrderByTypeAsc();
 
     @Query(value =

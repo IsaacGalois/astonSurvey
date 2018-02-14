@@ -125,6 +125,18 @@ public class IndexController {
 
         return "admin/stats";
     }
+
+    //todo: finish non-empty comments routing (change statsHub?)
+    @GetMapping(value = "/admin/non-emptyComments/{id}")
+    public String getNonEmptyComments(@PathVariable long id, Model model) {
+
+        model.addAttribute("survey",surveyService.getSurveyById(id));
+        String[][] neCommentsArray = surveyService.getQuestionTextAndNonEmptyCommentTextArrayBySurveyId(id);
+        model.addAttribute("neCommentsArray", neCommentsArray);
+        model.addAttribute("numRows",neCommentsArray.length);
+
+        return "admin/non-empty_comments";
+    }
     
     @GetMapping(value = "/admin/surveyMaker")
     public String surveyMaker() {
@@ -139,15 +151,14 @@ public class IndexController {
 
 }
 
-//todo: add sections to questions?
 //todo: make stats page for non-empty comments?
 //todo: add sql injection protection by validating choice, question, and survey inputs before saving to db
-//todo: enforce answering of all multi-choice questions (no empty choice submissions?) comment questions (how to enforce)?
 
 //later:
 //todo: add testing, full comments, & logging
 
 //much later:
 //todo: add paging?
+//todo: enforce answering of all multi-choice questions (no empty choice submissions?) comment questions (how to enforce)?
 //todo: make deeper stat analysis?
 //todo: add "write-ins" input text boxes (one line) as possible choices? <--will be time consuming and complicated...

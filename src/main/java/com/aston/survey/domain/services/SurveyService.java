@@ -18,6 +18,8 @@ public interface SurveyService {
 
     long[][] getAnswerFrequencyBySurveyId(Long id);
 
+    String[][] getQuestionTextAndNonEmptyCommentTextArrayBySurveyId(Long id);
+
     long[][] getTotalQuestionSubmissionsBySurveyId(Long id);
 
     long[][] cleanAnswerFrequencyMatrix(Long id, long[][] statMatrix);

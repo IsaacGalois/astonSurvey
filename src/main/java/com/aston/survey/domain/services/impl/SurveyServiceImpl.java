@@ -180,6 +180,18 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    public String[][] getQuestionTextAndNonEmptyCommentTextArrayBySurveyId(Long id) {
+        List<Object[]> countList = surveyRepository.getQuestionAndNonEmptyCommentChoiceIdArrayBySurveyId(id, commentService.getEmptyComment().getId());;
+        String[][] ret = new String[countList.size()][2];
+
+        for(int i=0;i<countList.size();i++)
+            for(int j=0;j<countList.get(i).length;j++)
+                    ret[i][j] = countList.get(i)[j].toString();
+
+        return ret;
+    }
+
+    @Override
     public Survey[][] getSurveysInTypes() {
         List<List<Survey>> surveyArray = new ArrayList<>();
         Survey[][] ret;
