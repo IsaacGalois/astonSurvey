@@ -27,6 +27,7 @@ public class SurveyRest {
     @PostMapping(value = "/")
     public Survey save(@RequestBody Survey survey) {
 
+        //load empty choice to each multiple choice question and empty comment to each comment question
         survey = surveyService.addEmptyChoiceAndOrCommentToMakerQuestions(survey);
 
         return surveyService.saveSurvey(survey);

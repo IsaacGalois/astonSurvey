@@ -24,6 +24,7 @@ public class Comment extends Choice{
 
 //    because Comment is a Choice, it has a String choiceText field. This is used as placeholder text in the textArea.
 
+    //allow commentText to be stored as a VARCHAR2 (Max size 2,147,483,647 characters)
     @Column(columnDefinition = "VARCHAR2")
     private String commentText;
 }

@@ -25,4 +25,10 @@ public class Survey {
 
     private String name;
     private String type;
+
+    public Survey(List<Question> questions, String name, String type) {
+        this.questions = questions;
+        this.name = name;
+        this.type = type;
+    }
 }

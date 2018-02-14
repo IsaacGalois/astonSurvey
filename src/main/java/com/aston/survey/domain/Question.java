@@ -29,4 +29,9 @@ public class Question {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Choice> choices;
 
+    public Question(String questionText, List<Choice> choices) {
+        this.questionText = questionText;
+        this.choices = choices;
+    }
+
 }

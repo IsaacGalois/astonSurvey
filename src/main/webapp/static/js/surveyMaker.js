@@ -226,5 +226,4 @@ function saveSurvey() {
 
 }
 
-// todo: test admin lock-down, possibly eliminate choice and question rest endpoints
-// todo: make survey not a global item but an iffy that has getters and setters?
+//todo: chrome renders this page as French because 'Reset' on button is capitalized?

@@ -76,7 +76,7 @@ public class IndexController {
     }
 
     @PostMapping(value = "/submitSurvey/{id}")
-    public String submitSurvey(SurveySubmissionVO surveySubmissionVO, @PathVariable long id, Model model) {
+    public String submitSurvey(SurveySubmissionVO surveySubmissionVO, @PathVariable long id) {
 
         SurveySubmission surveySubmission = surveySubmissionService.saveSurveySubmissionFromVO(surveySubmissionVO,id);
         surveySubmissionService.saveSurveySubmission(surveySubmission);
@@ -139,11 +139,15 @@ public class IndexController {
 
 }
 
-//todo: add paging?
+//todo: add sections to questions?
 //todo: make stats page for non-empty comments?
-//todo: make deeper stat analysis?
-//todo: add "write-ins" input text boxes (one line) as possible choices? <--will be time consuming and complicated...
-//todo: add sql injection protection. (@Valid?)
+//todo: add sql injection protection by validating choice, question, and survey inputs before saving to db
+//todo: enforce answering of all multi-choice questions (no empty choice submissions?) comment questions (how to enforce)?
 
 //later:
 //todo: add testing, full comments, & logging
+
+//much later:
+//todo: add paging?
+//todo: make deeper stat analysis?
+//todo: add "write-ins" input text boxes (one line) as possible choices? <--will be time consuming and complicated...

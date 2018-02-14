@@ -16,7 +16,7 @@
 
             <div class="row">
                 <div class="col-lg-1">
-                    <span>Username:</span>
+                    <span class="text-light">Username:</span>
                 </div>
                 <div class="col-lg-11">
                     <input type="text" name="username" value=""/>
@@ -27,7 +27,7 @@
 
             <div class="row">
                 <div class="col-lg-1">
-                    <span>Password:</span>
+                    <span class="text-light">Password:</span>
                 </div>
                 <div class="col-lg-11">
                     <input type="password" name="password" value=""/>

@@ -32,16 +32,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .authorizeRequests().antMatchers("/console/**").permitAll();
 
         } else if (authenticationMethod.equals("IN_MEMORY")) {
+
+            //create authentication for ADMIN and anything with the URL=/admin/** or /console/**
             httpSecurity
-                    //create authentication for ADMIN and anything with the URL=/admin/** or /console/**
                     .authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                     .and()
                     .authorizeRequests().antMatchers("/api/**").access("hasRole('ROLE_ADMIN')")
                     .and()
                     .authorizeRequests().antMatchers("/console/**").access("hasRole('ROLE_ADMIN')");
 
-            //default login page
-            httpSecurity.formLogin();
         }
 
         //use custom login page "/login" mapped to login.jsp by IndexController
