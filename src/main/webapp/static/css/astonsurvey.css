@@ -13,3 +13,7 @@
 .gimmeSpaceFloor {
     margin-bottom: 15%;
 }
+
+.jumbotron {
+    border-radius: 20px;
+}
