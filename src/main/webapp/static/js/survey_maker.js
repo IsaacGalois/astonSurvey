@@ -108,50 +108,66 @@ function addQuestion() {
     var choiceArray = choices.split('\n');
     // console.log(choiceArray);
 
-    var question = {
-        id: null,
-        version: null,
-        questionText: questionText,
-        choices: []
-    };
+    if(questionText !== "" && choices !== "" && choiceArray.length > 1) {
+        var question = {
+            id: null,
+            version: null,
+            questionText: questionText,
+            choices: []
+        };
 
-    // console.log($('#commentNo').prop("checked"));
-    // console.log($('#commentYes').prop("checked"));
+        // console.log($('#commentNo').prop("checked"));
+        // console.log($('#commentYes').prop("checked"));
 
-    if($('#commentNo').prop("checked")) {
-        choiceArray.forEach(function (item) {
+        if ($('#commentNo').prop("checked")) {
+            choiceArray.forEach(function (item) {
+                question.choices.push(
+                    {
+                        id: null,
+                        version: null,
+                        choiceText: item
+                    }
+                )
+            });
+        }
+        else {
+            // console.log("a comment");
             question.choices.push(
                 {
                     id: null,
                     version: null,
-                    choiceText: item
+                    choiceText: "EMPTY COMMENT PL@C3H07D3R"
                 }
             )
-        });
+        }
+
+        // console.log(JSON.stringify(question));
+
+        survey.questions.push(question);
+        survey.name = $('#inputSurveyName').val();
+        survey.type = $('#inputSurveyType').val();
+
+        populateQuestions();
+
+        $('#questionModal').modal('hide');
+
+        // console.log("Question:");
+        // console.log(JSON.stringify(question));
     }
     else {
-        // console.log("a comment");
-        question.choices.push(
-            {
-                id: null,
-                version: null,
-                choiceText: "EMPTY COMMENT PL@C3H07D3R"
-            }
-        )
+        var alertResponse = "Could not save Question for the following reason(s):\n\n";
+        if(questionText === "") {
+            alertResponse = alertResponse + "- Question Text is blank\n";
+        }
+        if(choices === "") {
+            alertResponse = alertResponse + "- There are no Choices assigned to this Question\n";
+        }
+        if(choices.length === 1) {
+            alertResponse = alertResponse + "- There is only one Choice assigned to this Question";
+        }
+
+        alert(alertResponse);
     }
-
-    // console.log(JSON.stringify(question));
-
-    survey.questions.push(question);
-    survey.name = $('#inputSurveyName').val();
-    survey.type = $('#inputSurveyType').val();
-
-    populateQuestions();
-
-    $('#questionModal').modal('hide');
-
-    // console.log("Question:");
-    // console.log(JSON.stringify(question));
 
 };
 
@@ -189,40 +205,59 @@ function removeQuestion(qIndex) {
 }
 
 function saveSurvey() {
+    var surveyName = $('#inputSurveyName').val();
+    var surveyType = $('#inputSurveyType').val();
+    var questionsArray = survey.questions;
 
-    var surveyToSave = {
-        "id" : null,
-        "version" : null,
-        "name" : $('#inputSurveyName').val(),
-        "type" : $('#inputSurveyType').val(),
-        "questions" : survey.questions
-    }
+    if(surveyName !== "" && surveyType !== "" && questionsArray.length > 0) {
+        var surveyToSave = {
+            "id": null,
+            "version": null,
+            "name": surveyName,
+            "type": surveyType,
+            "questions": questionsArray
+        }
 
-    // console.log("Survey:");
-    // console.log(JSON.stringify(surveyToSave));
+        // console.log("Survey:");
+        // console.log(JSON.stringify(surveyToSave));
 
-    // adapt for http (localhost) or https (Heroku)
-    var url = window.location.href;
-    var surveyPostUrl = url.charAt(4) === 's' ? "https://afternoon-chamber-68582.herokuapp.com/api/surveys/" : "http://localhost:8080/api/surveys/";
+        // adapt for http (localhost) or https (Heroku)
+        var url = window.location.href;
+        var surveyPostUrl = url.charAt(4) === 's' ? "https://afternoon-chamber-68582.herokuapp.com/api/surveys/" : "http://localhost:8080/api/surveys/";
 
-    $.ajax({
+        $.ajax({
             type: "post",
             data: JSON.stringify(surveyToSave),
             url: surveyPostUrl,
             async: true,
             dataType: "json",
             contentType: "application/json",
-            success: function(dbResponse) {
+            success: function (dbResponse) {
                 // console.log("Db Response: ");
                 // console.log(dbResponse);
                 window.location.href = "/admin/addSurvey";
             },
-            error: function(dbResponse) {
-                alert("Could Not Save Survey");
+            error: function (dbResponse) {
+                alert("ERROR: Could Not Save Survey");
                 // console.log("Db Response: ");
                 // console.log(dbResponse);
             }
         });
+    }
+    else {
+        var alertResponse = "Could not save Survey for the following reason(s):\n\n";
+        if(surveyName === "") {
+            alertResponse = alertResponse + "- Survey Name is blank\n";
+        }
+        if(surveyType === "") {
+            alertResponse = alertResponse + "- Survey Type is blank\n";
+        }
+        if(questionsArray.length === 0) {
+            alertResponse = alertResponse + "- There are no Questions assigned to this Survey";
+        }
+
+        alert(alertResponse);
+    }
 
 }
 

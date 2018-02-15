@@ -12,6 +12,9 @@
 <div class="container astonBlueBackground">
     <div class="col-lg-12">
         <br><br>
+        <div class="col-lg-3">
+            <img src="../../../static/images/header-logo.png" height="75px" width="250px" style="align-content: center">
+        </div>
         <form id="form" action="<c:url value='/login.do'/>" method="POST">
 
             <div class="row">
