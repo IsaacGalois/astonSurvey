@@ -16,8 +16,8 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Question</th>
-                <th scope="col">Choice</th>
+                <th scope="col" class="text-center">Question</th>
+                <th scope="col" class="text-center">Choice</th>
                 <th scope="col" class="text-center">Total Submissions for this Choice</th>
                 <th scope="col" class="text-center">Total Submissions of this Question</th>
                 <th scope="col" class="text-center">Percentage of time this Choice is chosen</th>
@@ -89,19 +89,19 @@
 
                                 <c1:choose>
                                     <%--Check if this entry is a submission for this question and this choice, if so move to next row, otherwise entry must be zero.--%>
-                                    <c1:when
-                                            test="${statArrayRowIsForThisQuestion && choice.id == statArray[currRowInStatArray][1] && choice.id == emptyCommentId}">
+                                    <c1:when test="${statArrayRowIsForThisQuestion && choice.id == statArray[currRowInStatArray][1] && choice.id == emptyCommentId}">
                                         <%--update choiceSubCount--%>
                                         <c:set var="choiceSubCount" value="${statArray[currRowInStatArray][2]}"/>
                                         <td scope="col" class="text-center">${choiceSubCount}</td>
+
                                         <c:set var="currRowInStatArray" value="${currRowInStatArray + 1}"/>
+
                                     </c1:when>
 
                                     <c1:otherwise>
                                         <%--If first element of statArray for a comment question is not for the empty choice, then there are no submitted empty choices. (Because empty comment has lowest choiceId of all comments)--%>
                                         <c:if test="${statArray[currRowInStatArray][1] != emptyCommentId}"/>
                                         <td scope="col" class="text-center">0</td>
-                                        <c:set var="currRowInStatArray" value="${currRowInStatArray + 1}"/>
                                     </c1:otherwise>
                                 </c1:choose>
 

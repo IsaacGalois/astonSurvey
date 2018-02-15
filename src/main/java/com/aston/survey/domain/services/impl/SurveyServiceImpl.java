@@ -93,7 +93,7 @@ public class SurveyServiceImpl implements SurveyService {
             ArrayList<Long> row = new ArrayList<>();
 
 //            row is a multiple choice, add it to cleanArray
-            if (commentIdArray.length > 1 && statMatrix[i][0] != commentIdArray[currCommentIndex]) {
+            if (statMatrix[i][0] != commentIdArray[currCommentIndex]) {
                 for (int j = 0; j < statMatrix[0].length; j++) {
                     row.add(statMatrix[i][j]);
                 }
