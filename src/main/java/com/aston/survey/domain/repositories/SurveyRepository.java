@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface SurveyRepository extends CrudRepository<Survey, Long> {
 
+    //region CUSTOM HQL QUERY METHODS
     @Query(value =
             "SELECT s.SUBMITTED_ANSWERS_KEY, s.SUBMITTED_ANSWERS_CHOICE_ID, COUNT(s.SUBMITTED_ANSWERS_CHOICE_ID) " +
                     "FROM SURVEY_SUBMISSION_SUBMITTED_ANSWERS s, SURVEY_SUBMISSION u  " +
@@ -44,8 +45,6 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
             nativeQuery = true)
     List<Object[]> getQuestionAndNonEmptyCommentChoiceIdArrayBySurveyId(@Param("id") Long id, @Param("emptyCommentId") Long emptyCommentId);
 
-    List<Survey> findAllByOrderByTypeAsc();
-
     @Query(value =
             "SELECT s.SURVEY_ID, s.TYPE, COUNT(u.SURVEY_SURVEY_ID) FROM SURVEY s\n" +
                     "LEFT OUTER JOIN SURVEY_SUBMISSION u ON u.SURVEY_SURVEY_ID = s.SURVEY_ID\n" +
@@ -53,5 +52,7 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
                     "ORDER BY s.TYPE ASC",
             nativeQuery = true)
     List<Object[]> getSurveySubmissionCountsOrderedByType();
+    //endregion
 
+    List<Survey> findAllByOrderByTypeAsc();
 }

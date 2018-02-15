@@ -27,12 +27,12 @@
                 <ul class="list-group">
                     <c1:forEach var="survey" items="${type}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="https://afternoon-chamber-68582.herokuapp.com/takeSurvey/${survey.id}"
+                            <a href="${rootUrl}/takeSurvey/${survey.id}"
                                class="btn astonBlueBackground text-light">
                                     ${survey.name}
                             </a>
-                            <a href="https://afternoon-chamber-68582.herokuapp.com/takeSurvey/${survey.id}">
-                                https://afternoon-chamber-68582.herokuapp.com/takeSurvey/${survey.id}
+                            <a href="${rootUrl}/takeSurvey/${survey.id}">
+                                ${rootUrl}/takeSurvey/${survey.id}
                             </a>
                             <span class="badge badge-primary badge-pill">${subCountsByTypeArray[subCountArrayRow][1]}</span>
                         </li>

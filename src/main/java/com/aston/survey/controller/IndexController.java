@@ -8,6 +8,7 @@ import com.aston.survey.domain.services.SurveyService;
 import com.aston.survey.domain.services.impl.SurveySubmissionServiceImpl;
 import com.aston.survey.domain.vo.SurveySubmissionVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class IndexController {
+
+    @Value("${server.servlet.path}")
+    private String rootUrl;
 
     //region AUTOWIRED SERVICES
     @Autowired
@@ -37,6 +41,7 @@ public class IndexController {
 
         Iterable<Survey> surveys = surveyService.listAllSurveys();
 
+        model.addAttribute("rootUrl",rootUrl);
         model.addAttribute("surveys",surveys);
 
         return "/index";
@@ -45,6 +50,7 @@ public class IndexController {
     @GetMapping(value = "/surveyHub")
     public String surveyHub(Model model) {
 
+        model.addAttribute("rootUrl",rootUrl);
         model.addAttribute("surveyTypeArray",surveyService.getSurveysInTypes());
         model.addAttribute("subCountsByTypeArray",surveyService.getSurveySubmissionCounts());
 
@@ -55,6 +61,8 @@ public class IndexController {
     public String takeSurvey(@PathVariable long id, Model model) {
 
         Survey mySurvey = surveyService.getSurveyById(id);
+
+        model.addAttribute("rootUrl",rootUrl);
 
         //populate survey and its questions
         model.addAttribute("survey",mySurvey);
@@ -72,20 +80,23 @@ public class IndexController {
         //add VO
         model.addAttribute("surveySubmissionVO", new SurveySubmissionVO(mySurvey.getQuestions().size()));
 
-        return "take_survey";
+        return "/survey/take_survey";
     }
 
     @PostMapping(value = "/submitSurvey/{id}")
-    public String submitSurvey(SurveySubmissionVO surveySubmissionVO, @PathVariable long id) {
+    public String submitSurvey(SurveySubmissionVO surveySubmissionVO, @PathVariable long id, Model model) {
+
+        model.addAttribute("rootUrl",rootUrl);
 
         SurveySubmission surveySubmission = surveySubmissionService.saveSurveySubmissionFromVO(surveySubmissionVO,id);
         surveySubmissionService.saveSurveySubmission(surveySubmission);
 
-        return "thank_you";
+        return "/survey/thank_you";
     }
 
     @GetMapping(value = "/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("rootUrl",rootUrl);
         return "login";
     }
     //endregion
@@ -93,14 +104,19 @@ public class IndexController {
     //region ADMIN
     @GetMapping(value = "/admin/statsHub")
     public String getStatsHub(Model model) {
-        model.addAttribute("surveyTypeArray", surveyService.getSurveysInTypes());
+        Survey[][] surveyTypeArray = surveyService.getSurveysInTypes();
+        model.addAttribute("rootUrl",rootUrl);
+        model.addAttribute("surveyTypeArray", surveyTypeArray);
         model.addAttribute("subCountsByTypeArray", surveyService.getSurveySubmissionCounts());
+//        model.addAttribute("commentsState", surveyService.getCommentsState(surveyTypeArray));
 
         return "admin/stats_hub";
     }
 
     @GetMapping( value = "/admin/stats/{id}")
     public String getStats(@PathVariable long id, Model model) {
+
+        model.addAttribute("rootUrl",rootUrl);
 
         //populate survey
         model.addAttribute("survey", surveyService.getSurveyById(id));
@@ -130,6 +146,7 @@ public class IndexController {
     @GetMapping(value = "/admin/non-emptyComments/{id}")
     public String getNonEmptyComments(@PathVariable long id, Model model) {
 
+        model.addAttribute("rootUrl",rootUrl);
         model.addAttribute("survey",surveyService.getSurveyById(id));
         String[][] neCommentsArray = surveyService.getQuestionTextAndNonEmptyCommentTextArrayBySurveyId(id);
         model.addAttribute("neCommentsArray", neCommentsArray);
@@ -139,19 +156,21 @@ public class IndexController {
     }
     
     @GetMapping(value = "/admin/surveyMaker")
-    public String surveyMaker() {
+    public String surveyMaker(Model model) {
+        model.addAttribute("rootUrl",rootUrl);
         return "/admin/survey_maker";
     }
 
     @GetMapping(value = "/admin/addSurvey")
-    public String surveyAdded() {
+    public String surveyAdded(Model model) {
+        model.addAttribute("rootUrl",rootUrl);
         return "/admin/survey_added";
     }
     //endregion
 
 }
 
-//todo: make stats page for non-empty comments?
+//todo: colored non-empty comment buttons on statsHub?
 //todo: add sql injection protection by validating choice, question, and survey inputs before saving to db
 
 //later:

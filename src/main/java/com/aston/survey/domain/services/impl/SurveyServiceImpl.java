@@ -287,5 +287,21 @@ public class SurveyServiceImpl implements SurveyService {
         return survey;
     }
 
+    @Override
+    public int[] getCommentsState(Survey[][] surveyArray) {
+        ArrayList<Integer> stateList = new ArrayList<>();
+
+        for(Survey[] surveyRow: surveyArray) {
+            for(Survey survey: surveyRow) {
+                int currState = 0;
+                currState = getCommentQuestionIdsBySurveyId(survey.getId()).length > 0 ? 0 : currState+1;
+                currState = getQuestionTextAndNonEmptyCommentTextArrayBySurveyId(survey.getId()).length > 0 ? 0 : currState+1;
+                stateList.add(currState);
+            }
+        }
+
+        return stateList.stream().mapToInt(i -> i).toArray();
+    }
+
     //endregion
 }

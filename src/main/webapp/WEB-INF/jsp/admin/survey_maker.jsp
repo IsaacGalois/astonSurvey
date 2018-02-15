@@ -1,7 +1,7 @@
 <%@include file="../includes/header.jsp" %>
 <%@include file="../includes/navbar.jsp" %>
 
-<c:url value="../../../static/js/surveyMaker.js" var="surveyMakerJS"/>
+<c:url value="../../../static/js/survey_maker.js" var="surveyMakerJS"/>
 <script src="${surveyMakerJS}"></script>
 
 <script>

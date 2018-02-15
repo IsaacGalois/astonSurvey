@@ -43,8 +43,7 @@ public class CommentServiceImpl implements CommentService{
 
         //Below shouldn't happen if Database was seeded properly
         if(emptyComment == null) {
-            emptyComment = new Comment("");
-            commentRepository.save(emptyComment);
+            emptyComment = commentRepository.save(new Comment(""));
         }
 
         return emptyComment;

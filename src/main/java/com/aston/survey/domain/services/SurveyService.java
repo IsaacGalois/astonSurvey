@@ -33,4 +33,6 @@ public interface SurveyService {
     long[][] getSurveySubmissionCounts();
 
     Survey addEmptyChoiceAndOrCommentToMakerQuestions(Survey survey);
+
+    int[] getCommentsState(Survey[][] surveyArray);
 }

@@ -43,8 +43,7 @@ public class ChoiceServiceImpl implements ChoiceService {
 
         //Below shouldn't happen if Database was seeded properly
         if(emptyChoice == null) {
-            emptyChoice = new Choice(null,null,"");
-            choiceRepository.save(emptyChoice);
+            emptyChoice = choiceRepository.save(new Choice(""));
         }
 
         return emptyChoice;

@@ -1,7 +1,7 @@
-<%@include file="includes/header.jsp" %>
-<%@include file="includes/navbar.jsp" %>
+<%@include file="../includes/header.jsp" %>
+<%@include file="../includes/navbar.jsp" %>
 
-<c:url value="../../static/js/take_survey.js" var="takeSurvey"/>
+<c:url value="../../../static/js/take_survey.js" var="takeSurvey"/>
 <%--todo: loading external js below doesnt work--%>
 <%--<script src="${takeSurvey}"></script>--%>
 
@@ -177,4 +177,4 @@
     </div>
 </div>
 
-<%@include file="includes/footer.jsp" %>
+<%@include file="../includes/footer.jsp" %>
