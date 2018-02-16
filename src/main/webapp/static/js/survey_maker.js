@@ -1,12 +1,10 @@
-
 var survey = {
-    "id" : null,
-    "version" : null,
-    "name" : null,
-    "type" : null,
-    "questions" : []
+    "id": null,
+    "version": null,
+    "name": null,
+    "type": null,
+    "questions": []
 }
-
 
 
 // function populateMultipleChoice(questionNum) {
@@ -92,8 +90,8 @@ function insertQuestion() {
     $('#questionVersion').val("");
     $('#inputQuestionText').val("");
     $('#textAreaChoices').val("");
-    $('#commentNo').prop("checked",true);
-    $('#commentYes').prop("checked",false);
+    $('#commentNo').prop("checked", true);
+    $('#commentYes').prop("checked", false);
     $('#textAreaChoicesContainer').show();
 
     //open modal
@@ -108,7 +106,15 @@ function addQuestion() {
     var choiceArray = choices.split('\n');
     // console.log(choiceArray);
 
-    if(questionText !== "" && choices !== "" && choiceArray.length > 1) {
+    var hasSemiColon = false;
+
+    for (index in choiceArray) {
+        if (choiceArray[index].split(';').length > 1) {
+            hasSemiColon = true;
+        }
+    }
+
+    if (questionText !== "" && choices !== "" && choiceArray.length > 1 && !hasSemiColon) {
         var question = {
             id: null,
             version: null,
@@ -156,14 +162,17 @@ function addQuestion() {
     }
     else {
         var alertResponse = "Could not save Question for the following reason(s):\n\n";
-        if(questionText === "") {
+        if (questionText === "") {
             alertResponse = alertResponse + "- Question Text is blank\n";
         }
-        if(choices === "") {
+        if (choices === "") {
             alertResponse = alertResponse + "- There are no Choices assigned to this Question\n";
         }
-        if(choices.length === 1) {
-            alertResponse = alertResponse + "- There is only one Choice assigned to this Question";
+        if (choices.length === 1) {
+            alertResponse = alertResponse + "- There is only one Choice assigned to this Question\n";
+        }
+        if (hasSemiColon) {
+            alertResponse = alertResponse + "- There is a semicolon in one or more of your Choices";
         }
 
         alert(alertResponse);
@@ -174,19 +183,19 @@ function addQuestion() {
 function populateQuestions() {
     $('#questionsContainer').find('ul').empty();
 
-    $.each(survey.questions, function(qIndex,question) {
+    $.each(survey.questions, function (qIndex, question) {
         $('#questionsContainer').find('ul').append(
-            "<li id="+qIndex+">"+
-            "<button type='button' class='btn btn-danger' onclick='removeQuestion("+qIndex+")'>X</button>" +
+            "<li id=" + qIndex + ">" +
+            "<button type='button' class='btn btn-danger' onclick='removeQuestion(" + qIndex + ")'>X</button>" +
             "    " + question.questionText + " -   Choices: "
         )
-        $.each(question.choices, function(cIndex,choice) {
+        $.each(question.choices, function (cIndex, choice) {
             $('#' + qIndex).append(
                 choice.choiceText + ", "
             )
         });
         $('#questionsContainer').append(
-            "</li>\n"+
+            "</li>\n" +
             "</ul>"
         )
     });
@@ -209,7 +218,19 @@ function saveSurvey() {
     var surveyType = $('#inputSurveyType').val();
     var questionsArray = survey.questions;
 
-    if(surveyName !== "" && surveyType !== "" && questionsArray.length > 0) {
+    var surveyNameHasSemiColon = false;
+    var surveyTypeHasSemiColon = false;
+
+    if (surveyName.split(';').length > 1) {
+        surveyNameHasSemiColon = true;
+    }
+
+    if(surveyType.split(';').length > 1) {
+        surveyTypeHasSemiColon = true;
+    }
+
+
+    if (surveyName !== "" && surveyType !== "" && questionsArray.length > 0 && !surveyNameHasSemiColon && !surveyTypeHasSemiColon) {
         var surveyToSave = {
             "id": null,
             "version": null,
@@ -246,14 +267,20 @@ function saveSurvey() {
     }
     else {
         var alertResponse = "Could not save Survey for the following reason(s):\n\n";
-        if(surveyName === "") {
+        if (surveyName === "") {
             alertResponse = alertResponse + "- Survey Name is blank\n";
         }
-        if(surveyType === "") {
+        if (surveyType === "") {
             alertResponse = alertResponse + "- Survey Type is blank\n";
         }
-        if(questionsArray.length === 0) {
-            alertResponse = alertResponse + "- There are no Questions assigned to this Survey";
+        if (questionsArray.length === 0) {
+            alertResponse = alertResponse + "- There are no Questions assigned to this Survey\n";
+        }
+        if (surveyNameHasSemiColon) {
+            alertResponse = alertResponse + "- Survey Name contains a semicolon\n";
+        }
+        if (surveyTypeHasSemiColon) {
+            alertResponse = alertResponse + "- Survey Type has a semicolon";
         }
 
         alert(alertResponse);

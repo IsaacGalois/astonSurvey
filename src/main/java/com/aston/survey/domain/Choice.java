@@ -15,10 +15,6 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Choice {
 
-    public Choice(String choiceText) {
-        this.choiceText = choiceText;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ChoiceId")
@@ -28,4 +24,8 @@ public class Choice {
     private Integer version;
 
     private String choiceText;
+
+    public Choice(String choiceText) {
+        this.choiceText = choiceText;
+    }
 }
