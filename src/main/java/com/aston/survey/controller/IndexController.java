@@ -170,6 +170,7 @@ public class IndexController {
 
 }
 
+//todo: set env variables on heroku server to avoid hardcoding auth details (app and db) in source code?
 //todo: colored non-empty comment buttons on statsHub?
 //todo: add sql injection protection by validating choice, question, and survey inputs before saving to db
 
