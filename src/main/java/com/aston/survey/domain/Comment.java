@@ -1,10 +1,7 @@
 package com.aston.survey.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -24,7 +21,8 @@ public class Comment extends Choice{
 
 //    because Comment is a Choice, it has a String choiceText field. This is used as placeholder text in the textArea.
 
-    //allow commentText to be stored as a VARCHAR2 (Max size 2,147,483,647 characters)
-    @Column(columnDefinition = "VARCHAR2")
+    //allow commentText to be stored as a VARCHAR2 (Max size 2,147,483,647 characters) <--h2
+    //allow commentText to be stored as a LONGTEXT (Max size 4,294,967,295 characters) <--MySql
+    @Lob
     private String commentText;
 }

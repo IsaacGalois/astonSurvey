@@ -1,10 +1,6 @@
 <%@include file="../includes/header.jsp" %>
 <%@include file="../includes/navbar.jsp" %>
 
-<c:url value="../../../static/js/take_survey.js" var="takeSurvey"/>
-<%--todo: loading external js below doesnt work--%>
-<%--<script src="${takeSurvey}"></script>--%>
-
 <script>
     $(document).ready(function () {
 

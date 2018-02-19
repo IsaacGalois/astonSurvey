@@ -142,7 +142,6 @@ public class IndexController {
         return "admin/stats";
     }
 
-    //todo: finish non-empty comments routing (change statsHub?)
     @GetMapping(value = "/admin/non-emptyComments/{id}")
     public String getNonEmptyComments(@PathVariable long id, Model model) {
 
@@ -172,7 +171,7 @@ public class IndexController {
 
 //todo: set env variables on heroku server to avoid hardcoding auth details (app and db) in source code?
 //todo: colored non-empty comment buttons on statsHub?
-//todo: add sql injection protection by validating choice, question, and survey inputs before saving to db
+//todo: add sql injection protection by validating choice, question, and survey inputs before saving to db?
 
 //later:
 //todo: add testing, full comments, & logging
