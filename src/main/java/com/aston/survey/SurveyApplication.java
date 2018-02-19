@@ -9,29 +9,28 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SurveyApplication {
 
-	//todo: add and configure datasource
-//	@Value("${spring.datasource.url}")
-//	private String datasourceUrl;
-//
-//	@Value("${spring.datasource.username}")
-//	private String datasourceUsername;
-//
-//	@Value("${spring.datasource.password}")
-//	private String datasourcePassword;
-//
-//	@Value("${spring.datasource.driver-class-name}")
-//	private String datasourceDriverClassName;
-//
-//	@Bean
-//	public DataSource dataSource() {
-//		DataSource ds = new DataSource();
-//		ds.setDriverClassName(datasourceDriverClassName);
-//		ds.setUrl(datasourceUrl);
-//		ds.setUsername(datasourceUsername);
-//		ds.setPassword(datasourcePassword);
-//
-//		return ds;
-//	}
+	@Value("${spring.datasource.url}")
+	private String datasourceUrl;
+
+	@Value("${spring.datasource.username}")
+	private String datasourceUsername;
+
+	@Value("${spring.datasource.password}")
+	private String datasourcePassword;
+
+	@Value("${spring.datasource.driver-class-name}")
+	private String datasourceDriverClassName;
+
+	@Bean
+	public DataSource dataSource() {
+		DataSource ds = new DataSource();
+		ds.setDriverClassName(datasourceDriverClassName);
+		ds.setUrl(datasourceUrl);
+		ds.setUsername(datasourceUsername);
+		ds.setPassword(datasourcePassword);
+
+		return ds;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SurveyApplication.class, args);
