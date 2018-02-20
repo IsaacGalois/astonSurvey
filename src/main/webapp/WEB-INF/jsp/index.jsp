@@ -26,7 +26,7 @@
             <div class="card-body">
                 <h4 class="card-title">Meaningful Statistics & Analysis</h4>
                 <p class="card-text">See some of the aggregated results of our surveys. These metrics are used to fine tune the way we do business to serve you better!</p>
-                <a href="${rootUrl}/admin/statsHub" class="btn astonBlueBackground text-light">Visit Stats Hub</a>
+                <a href="${rootUrl}/admin/statsHub" class="btn astonBlueBackground text-light">Visit Statistics Hub</a>
             </div>
         </div>
     </div>
