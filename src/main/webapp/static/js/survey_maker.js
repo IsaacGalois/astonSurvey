@@ -102,19 +102,23 @@ function insertQuestion() {
 function addQuestion() {
     var questionText = $('#inputQuestionText').val();
     var choices = $('#textAreaChoices').val();
+    var isComment = $('#commentYes').prop("checked");
+    var questionTextHasASemicolon = false;
+    var choicesHaveASemiColon = false;
+
+    if(questionText.split(';').length > 1)
+        questionTextHasASemicolon = true;
 
     var choiceArray = choices.split('\n');
     // console.log(choiceArray);
 
-    var hasSemiColon = false;
-
     for (index in choiceArray) {
         if (choiceArray[index].split(';').length > 1) {
-            hasSemiColon = true;
+            choicesHaveASemiColon = true;
         }
     }
-
-    if (questionText !== "" && choices !== "" && choiceArray.length > 1 && !hasSemiColon) {
+    //           non-empty questionText with no semicolons AND (         more than one choice, each with no semicolons                OR is a comment question)
+    if ((questionText !== "" && !questionTextHasASemicolon) && ((choices !== "" && choiceArray.length > 1 && !choicesHaveASemiColon) || (isComment))) {
         var question = {
             id: null,
             version: null,
@@ -165,13 +169,16 @@ function addQuestion() {
         if (questionText === "") {
             alertResponse = alertResponse + "- Question Text is blank\n";
         }
+        if(questionTextHasASemicolon) {
+            alertResponse = alertResponse + "- There is a semicolon in your Question Text\n";
+        }
         if (choices === "") {
             alertResponse = alertResponse + "- There are no Choices assigned to this Question\n";
         }
-        if (choices.length === 1) {
+        if (choiceArray.length === 1 && choiceArray[0] !== "") {
             alertResponse = alertResponse + "- There is only one Choice assigned to this Question\n";
         }
-        if (hasSemiColon) {
+        if (choicesHaveASemiColon) {
             alertResponse = alertResponse + "- There is a semicolon in one or more of your Choices";
         }
 

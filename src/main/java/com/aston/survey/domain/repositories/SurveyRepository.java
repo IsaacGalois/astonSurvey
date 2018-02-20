@@ -12,44 +12,44 @@ public interface SurveyRepository extends CrudRepository<Survey, Long> {
 
     //region CUSTOM HQL QUERY METHODS
     @Query(value =
-            "SELECT s.SUBMITTED_ANSWERS_KEY, s.SUBMITTED_ANSWERS_CHOICE_ID, COUNT(s.SUBMITTED_ANSWERS_CHOICE_ID) " +
-                    "FROM SURVEY_SUBMISSION_SUBMITTED_ANSWERS s, SURVEY_SUBMISSION u  " +
-                    "WHERE s.SURVEY_SUBMISSION_SURVEY_SUBMISSION_ID = u.SURVEY_SUBMISSION_ID " +
-                    "AND u.SURVEY_SURVEY_ID = :id\n" +
-                    "GROUP BY s.SUBMITTED_ANSWERS_KEY,  s.SUBMITTED_ANSWERS_CHOICE_ID\n" +
-                    "ORDER BY s.SUBMITTED_ANSWERS_KEY, s.SUBMITTED_ANSWERS_CHOICE_ID ASC", //have to sort also on choiceId because this set is accessed in choice increasing order
+            "SELECT s.submitted_answers_key, s.submitted_answers_choice_id, COUNT(s.submitted_answers_choice_id)\n" +
+                    "FROM survey_submission_submitted_answers s, survey_submission u\n" +
+                    "WHERE s.survey_submission_survey_submission_id = u.survey_submission_id\n" +
+                    "AND u.survey_survey_id = :id\n" +
+                    "GROUP BY s.submitted_answers_key,  s.submitted_answers_choice_id\n" +
+                    "ORDER BY s.submitted_answers_key, s.submitted_answers_choice_id ASC", //have to sort also on choiceId because this set is accessed in choice increasing order
             nativeQuery = true
     )
     List<Object[]> getAnswerCountsById(@Param("id") Long id);
 
     @Query(value =
-    "SELECT s.SUBMITTED_ANSWERS_KEY, COUNT(s.SUBMITTED_ANSWERS_KEY) \n" +
-            "FROM SURVEY_SUBMISSION_SUBMITTED_ANSWERS s, SURVEY_SUBMISSION u \n" +
-            "WHERE s.SURVEY_SUBMISSION_SURVEY_SUBMISSION_ID = u.SURVEY_SUBMISSION_ID\n" +
-            "AND u.SURVEY_SURVEY_ID = :id\n" +
-            "GROUP BY s.SUBMITTED_ANSWERS_KEY\n" +
-            "ORDER BY s.SUBMITTED_ANSWERS_KEY ASC",
+    "SELECT s.submitted_answers_key, COUNT(s.submitted_answers_key)\n" +
+            "            FROM survey_submission_submitted_answers s, survey_submission u\n" +
+            "            WHERE s.survey_submission_survey_submission_id = u.survey_submission_id\n" +
+            "            AND u.survey_survey_id = :id\n" +
+            "            GROUP BY s.submitted_answers_key\n" +
+            "            ORDER BY s.submitted_answers_key ASC",
             nativeQuery = true)
     List<Object[]> getTotalQuestionSubmissionsById(@Param("id") Long id);
 
     @Query(value =
-            "SELECT q.QUESTION_TEXT, c.COMMENT_TEXT\n" +
-                    "FROM SURVEY_SUBMISSION_SUBMITTED_ANSWERS s, SURVEY_SUBMISSION u, CHOICE c, QUESTION Q\n" +
-                    "WHERE s.SURVEY_SUBMISSION_SURVEY_SUBMISSION_ID = u.SURVEY_SUBMISSION_ID \n" +
-                    "AND s.SUBMITTED_ANSWERS_CHOICE_ID = c.CHOICE_ID \n" +
-                    "AND s.SUBMITTED_ANSWERS_KEY = q.QUESTION_ID\n" +
-                    "AND c.COMMENT_TEXT IS NOT NULL \n" +
-                    "AND c.CHOICE_ID != :emptyCommentId \n" +
-                    "AND u.SURVEY_SURVEY_ID = :id\n" +
-                    "ORDER BY q.QUESTION_ID ASC",
+            "SELECT q.question_text, c.comment_text\n" +
+                    "                    FROM survey_submission_submitted_answers s, survey_submission u, choice c, question q\n" +
+                    "                    WHERE s.survey_submission_survey_submission_id = u.survey_submission_id\n" +
+                    "                    AND s.submitted_answers_choice_id = c.choice_id\n" +
+                    "                    AND s.submitted_answers_key = q.question_id\n" +
+                    "                    AND c.comment_text IS NOT NULL \n" +
+                    "                    AND c.choice_id != :emptyCommentId\n" +
+                    "                    AND u.survey_survey_id= :id\n" +
+                    "                    ORDER BY q.question_id ASC",
             nativeQuery = true)
     List<Object[]> getQuestionAndNonEmptyCommentChoiceIdArrayBySurveyId(@Param("id") Long id, @Param("emptyCommentId") Long emptyCommentId);
 
     @Query(value =
-            "SELECT s.SURVEY_ID, s.TYPE, COUNT(u.SURVEY_SURVEY_ID) FROM SURVEY s\n" +
-                    "LEFT OUTER JOIN SURVEY_SUBMISSION u ON u.SURVEY_SURVEY_ID = s.SURVEY_ID\n" +
-                    "GROUP BY u.SURVEY_SURVEY_ID,s.SURVEY_ID\n" +
-                    "ORDER BY s.TYPE ASC",
+            "SELECT s.survey_id, s.type, COUNT(u.survey_survey_id) FROM survey s\n" +
+                    "LEFT OUTER JOIN survey_submission u ON u.survey_survey_id = s.survey_id\n" +
+                    "GROUP BY u.survey_survey_id,s.survey_id\n" +
+                    "ORDER BY s.type ASC",
             nativeQuery = true)
     List<Object[]> getSurveySubmissionCountsOrderedByType();
     //endregion
